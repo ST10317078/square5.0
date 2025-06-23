@@ -1,3 +1,5 @@
+// Screens/userProfileScreen.tsx
+
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -11,44 +13,36 @@ import {
   Alert,
 } from "react-native";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
-import { doc, getDoc, setDoc } from "firebase/firestore"; // setDoc is not used in this component, can be removed if not needed
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 import { RootStackParamList } from "../types";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-// Import themed styles and constants
-import createStyles, { SPACING } from './context/appStyles'; // Adjust path as needed
-import { useTheme } from './context/ThemeContext'; // Adjust path as needed
+import createStyles, { SPACING } from './context/appStyles';
+import { useTheme } from './context/ThemeContext'; // Corrected path based on your latest ThemeContext
 
-// --- Types ---
 type UserProfileRouteProp = RouteProp<RootStackParamList, "UserProfileScreen">;
 type NavigationProp = StackNavigationProp<RootStackParamList, "UserProfileScreen">;
 
-interface UserData { // Ensure this matches your Firestore 'users' document structure
+interface UserData {
   username: string;
   profilePic?: string;
   aboutMe?: string;
-  socialLink?: string; // This is the most likely culprit for indexOf if it's not a string
-  // Add other fields from your user document if you use them here
+  socialLink?: string;
 }
 
-// --- Constants ---
 const AVATAR_PLACEHOLDER = require("../assets/avatar-placeholder.png");
 
-// --- Helper for content display ---
 const renderContentOrPlaceholder = (content?: string) => {
   return content?.trim() ? content : "Nothing to show here";
 };
 
-// --- Main Component ---
 const UserProfileScreen = () => {
   const route = useRoute<UserProfileRouteProp>();
   const navigation = useNavigation<NavigationProp>();
   const { userId } = route.params;
 
-  // Use the theme hook to get current colors
   const { colors } = useTheme();
-  // Generate styles based on current theme colors
   const styles = createStyles(colors).userProfileScreen;
   const globalStyles = createStyles(colors).global;
 
@@ -57,7 +51,6 @@ const UserProfileScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [chatLoading, setChatLoading] = useState(false);
 
-  // --- REVISED: fetchUserData ---
   const fetchUserData = async () => {
     setRefreshing(true);
     try {
@@ -65,19 +58,12 @@ const UserProfileScreen = () => {
       const userDoc = await getDoc(userDocRef);
       if (userDoc.exists()) {
         const userDataFromFirestore = userDoc.data() as UserData;
-
-        // Explicitly ensure socialLink is a string or undefined
-        // Sometimes Firestore can return null or non-string types if data was written incorrectly.
-        // The indexOf error on Linking.openURL often happens if the URL isn't a string.
         userDataFromFirestore.socialLink = typeof userDataFromFirestore.socialLink === 'string'
                                            ? userDataFromFirestore.socialLink
                                            : undefined;
-
-        // Ensure aboutMe is a string or undefined
         userDataFromFirestore.aboutMe = typeof userDataFromFirestore.aboutMe === 'string'
                                         ? userDataFromFirestore.aboutMe
                                         : undefined;
-
         setUser(userDataFromFirestore);
       } else {
         setUser(null);
@@ -102,37 +88,62 @@ const UserProfileScreen = () => {
       const currentUser = auth.currentUser;
       if (!currentUser) {
         Alert.alert("Error", "You need to be logged in to chat.");
-        return; // Early exit
+        console.error("DEBUG: Current user is null. Cannot start chat.");
+        return;
       }
 
+      // DEBUG LOGS START
+      console.log("DEBUG: Current User UID:", currentUser.uid);
+      console.log("DEBUG: Target User ID (from params):", userId);
+
       const chatId = [currentUser.uid, userId].sort().join("_");
+      console.log("DEBUG: Constructed Chat ID:", chatId);
+
+      const participantsObject = {
+        [currentUser.uid]: true,
+        [userId]: true
+      };
+      console.log("DEBUG: Participants object being sent:", participantsObject);
+
+      // Verify if the `chatId` splits correctly into two parts
+      const parts = chatId.split('_');
+      if (parts.length !== 2 || !parts[0] || !parts[1]) {
+        console.error("DEBUG ERROR: Chat ID is not in expected 'UID1_UID2' format or parts are empty:", chatId);
+        Alert.alert("Error", "Invalid chat ID format. Please contact support.");
+        setChatLoading(false);
+        return;
+      }
+      console.log("DEBUG: Chat ID parts (UID1, UID2):", parts[0], parts[1]);
+      // DEBUG LOGS END
 
       const chatRef = doc(db, "chats", chatId);
       const chatDoc = await getDoc(chatRef);
 
       if (!chatDoc.exists()) {
-        await setDoc(chatRef, { // setDoc is used here for chats
-          participants: { [currentUser.uid]: true, [userId]: true },
-          createdAt: new Date(),
+        console.log("DEBUG: Chat document does not exist, attempting to create...");
+        await setDoc(chatRef, {
+          participants: participantsObject, // Use the explicitly logged object
+          createdAt: serverTimestamp(),
         });
+        console.log("DEBUG: Chat document creation initiated successfully.");
+      } else {
+        console.log("DEBUG: Chat document already exists. Proceeding to chat room.");
       }
 
       navigation.navigate("ChatRoomScreen", { chatId, recipientId: userId });
+
     } catch (error: any) {
       console.error("Error starting chat:", error);
-      Alert.alert(`Failed to start chat: ${error.message || "Please try again."}`);
+      // More detailed alert for debugging
+      Alert.alert(`Failed to start chat: ${error.message || "Please try again."}`, "Check console for more details.");
     } finally {
       setChatLoading(false);
     }
   };
 
-  // --- REVISED: handleOpenLink ---
   const handleOpenLink = () => {
     const link = user?.socialLink;
     if (link) {
-      // Add a basic check for URL format before opening
-      // Linking.openURL's internal implementation might use indexOf or similar checks
-      // on the string. If it's malformed or not a string, it can throw.
       if (typeof link === 'string' && (link.startsWith('http://') || link.startsWith('https://'))) {
           Linking.openURL(link).catch(err => {
               console.error('Failed to open social link:', err);
@@ -151,7 +162,7 @@ const UserProfileScreen = () => {
     return (
       <View style={globalStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={styles.loadingText}>Loading user profile...</Text> {/* Changed from global.loadingOverlayText */}
+        <Text style={styles.loadingText}>Loading user profile...</Text>
       </View>
     );
   }

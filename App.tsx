@@ -13,6 +13,7 @@ import ChatScreen from "./Screens/ChatScreen";
 import BottomBar from "./Screens/Tabs/BottomTabsNavigator";
 import UserProfileScreen from "./Screens/userProfileScreen";
 import EditCommunityScreen from "./Screens/EditCommunityScreen";
+import ChatRoomScreen from './Screens/ChatRoomScreen'; // NEW: For 1:1 chats
 
 import  {ThemeProvider} from './Screens/context/ThemeContext'; // Adjust path to your ThemeContext
 
@@ -37,6 +38,7 @@ const MainNavigator = () => {
             <Stack.Screen name="ChatScreen" component={ChatScreen} />
             <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
             <Stack.Screen name="EditCommunityScreen" component={EditCommunityScreen} />
+            <Stack.Screen name="ChatRoomScreen" component={ChatRoomScreen} /> 
 
           </>
         ) : (
@@ -56,7 +58,7 @@ const MainNavigator = () => {
 const BottomBarWrapper = () => {
   const currentScreen = useNavigationState((state) => state?.routes[state.index]?.name);
 
-  if (currentScreen === "GroupChatScreen") return null; // Hide on GroupChatScreen
+  if (currentScreen === "GroupChatScreen" || currentScreen === "ChatRoomScreen") return null;
   return <BottomBar />;
 };
 

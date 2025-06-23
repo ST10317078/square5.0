@@ -1,7 +1,6 @@
-// src/theme/appStyles.ts
+// Screens/context/appStyles.ts OR src/theme/appStyles.ts (adjust path as needed)
 import { StyleSheet, Platform } from 'react-native';
-import { ThemeColors } from './ThemeContext';
-
+import { ThemeColors } from './ThemeContext'; // Ensure this import path is correct for your project
 
 export const BOTTOM_TAB_BAR_HEIGHT = 70; // Adjust this value precisely if needed
 
@@ -93,7 +92,7 @@ const createStyles = (colors: ThemeColors) => {
       },
       scrollViewContent: {
         flexGrow: 1,
-        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large, // <--- ADDED BOTTOM_TAB_BAR_HEIGHT here
+        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large,
       },
       container: {
         paddingHorizontal: SPACING.medium,
@@ -203,7 +202,7 @@ const createStyles = (colors: ThemeColors) => {
         borderRadius: 12,
         borderWidth: 1,
         borderColor: colors.borderColor,
-        alignItems: "center", // Changed to center for icon/logo placement
+        alignItems: "center",
         justifyContent: "space-between",
         minHeight: 120,
         shadowColor: colors.shadowColor,
@@ -218,13 +217,12 @@ const createStyles = (colors: ThemeColors) => {
           },
         }),
       },
-      // New style for community logo
       communityLogo: {
         width: 60,
         height: 60,
-        borderRadius: 30, // Make it circular
+        borderRadius: 30,
         marginBottom: SPACING.xsmall,
-        backgroundColor: colors.placeholder, // Placeholder background
+        backgroundColor: colors.placeholder,
         borderWidth: 1,
         borderColor: colors.borderColor,
       },
@@ -233,12 +231,12 @@ const createStyles = (colors: ThemeColors) => {
         fontWeight: "bold",
         color: colors.text,
         marginBottom: SPACING.xsmall,
-        textAlign: 'center', // Center text below logo
+        textAlign: 'center',
       },
       communityCardDescription: {
         fontSize: FONT_SIZES.xsmall + 1,
         color: colors.secondaryText,
-        textAlign: 'center', // Center text below logo
+        textAlign: 'center',
       },
       userCard: {
         flexDirection: "row",
@@ -261,7 +259,7 @@ const createStyles = (colors: ThemeColors) => {
           },
         }),
       },
-      userAvatar: { // Style for user profile pictures
+      userAvatar: {
         width: 40,
         height: 40,
         borderRadius: 20,
@@ -275,10 +273,10 @@ const createStyles = (colors: ThemeColors) => {
         color: colors.text,
         fontWeight: "500",
       },
-        userCardDescription: { // <--- ADDED style for user description
-        fontSize: FONT_SIZES.small, // Slightly smaller font
+      userCardDescription: {
+        fontSize: FONT_SIZES.small,
         color: colors.secondaryText,
-        marginTop: SPACING.xsmall / 2, // Small space above
+        marginTop: SPACING.xsmall / 2,
         lineHeight: FONT_SIZES.medium,
       },
       noResultsText: {
@@ -288,7 +286,6 @@ const createStyles = (colors: ThemeColors) => {
         color: colors.secondaryText,
         paddingBottom: SPACING.large,
       },
-            // NEW STYLE FOR FLOATING ACTION BUTTON
       fab: {
         position: 'absolute',
         width: 60,
@@ -297,50 +294,50 @@ const createStyles = (colors: ThemeColors) => {
         justifyContent: 'center',
         right: SPACING.large,
         top: 'auto',
-        bottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large, // <--- FAB adjusted bottom position
+        bottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large,
         backgroundColor: colors.primary,
         borderRadius: 30,
-        elevation: 20, // Android shadow
-        shadowColor: colors.shadowColor, // iOS shadow
+        elevation: 20,
+        shadowColor: colors.shadowColor,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 5,
-        zIndex: 999, // Ensure it's on top
+        zIndex: 999,
       },
       fabText: {
-        fontSize: FONT_SIZES.xxlarge, // Large plus sign
-        color: colors.activeFilterText, // White/light color
-        lineHeight: Platform.OS === 'ios' ? FONT_SIZES.xxlarge : FONT_SIZES.xxlarge + 5, // Adjust for centering on iOS/Android
+        fontSize: FONT_SIZES.xxlarge,
+        color: colors.activeFilterText,
+        lineHeight: Platform.OS === 'ios' ? FONT_SIZES.xxlarge : FONT_SIZES.xxlarge + 5,
         fontWeight: 'bold',
       },
     }),
 
-  // NEW: CreateCommunityScreen Styles
+    // NEW: CreateCommunityScreen Styles
     createCommunityScreen: StyleSheet.create({
       container: {
         flex: 1,
         padding: SPACING.large,
-        backgroundColor: colors.background, // Themed
+        backgroundColor: colors.background,
       },
       header: {
-        fontSize: FONT_SIZES.heading2, // Themed font size
+        fontSize: FONT_SIZES.heading2,
         fontWeight: "bold",
-        marginBottom: SPACING.medium, // Themed spacing
-        color: colors.text, // Themed
+        marginBottom: SPACING.medium,
+        color: colors.text,
         textAlign: 'center',
       },
       logoContainer: {
-        alignSelf: 'center', // Center it horizontally
+        alignSelf: 'center',
         width: 120,
         height: 120,
-        borderRadius: 60, // Circular
-        backgroundColor: colors.cardBackground, // Themed background
+        borderRadius: 60,
+        backgroundColor: colors.cardBackground,
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: SPACING.large, // Themed spacing
+        marginBottom: SPACING.large,
         borderWidth: 2,
-        borderColor: colors.borderColor, // Themed border
-        overflow: 'hidden', // Clip image
+        borderColor: colors.borderColor,
+        overflow: 'hidden',
       },
       logoImage: {
         width: '100%',
@@ -348,23 +345,22 @@ const createStyles = (colors: ThemeColors) => {
         resizeMode: 'cover',
       },
       addLogoText: {
-        color: colors.primary, // Themed color
+        color: colors.primary,
         fontSize: FONT_SIZES.medium,
         fontWeight: '600',
-        marginTop: SPACING.small, // Themed spacing
+        marginTop: SPACING.small,
       },
       input: {
-        // Reuse general textInput styles if available, or define new ones
         height: 50,
-        backgroundColor: colors.cardBackground, // Themed
-        paddingHorizontal: SPACING.small, // Themed
-        borderRadius: SPACING.small, // Themed
-        marginBottom: SPACING.medium, // Themed
+        backgroundColor: colors.cardBackground,
+        paddingHorizontal: SPACING.small,
+        borderRadius: SPACING.small,
+        marginBottom: SPACING.medium,
         borderWidth: 1,
-        borderColor: colors.borderColor, // Themed
-        fontSize: FONT_SIZES.medium, // Themed
-        color: colors.text, // Themed
-        shadowColor: colors.shadowColor, // Themed
+        borderColor: colors.borderColor,
+        fontSize: FONT_SIZES.medium,
+        color: colors.text,
+        shadowColor: colors.shadowColor,
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
@@ -375,11 +371,11 @@ const createStyles = (colors: ThemeColors) => {
         textAlignVertical: "top",
       },
       createButton: {
-        backgroundColor: colors.primary, // Themed
-        padding: SPACING.medium, // Themed
+        backgroundColor: colors.primary,
+        padding: SPACING.medium,
         alignItems: "center",
-        borderRadius: SPACING.small, // Themed
-        marginTop: SPACING.medium, // Themed
+        borderRadius: SPACING.small,
+        marginTop: SPACING.medium,
         shadowColor: colors.shadowColor,
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
@@ -387,11 +383,11 @@ const createStyles = (colors: ThemeColors) => {
         elevation: 8,
       },
       createButtonText: {
-        color: colors.activeFilterText, // Themed (e.g., white text on primary button)
+        color: colors.activeFilterText,
         fontWeight: "bold",
-        fontSize: FONT_SIZES.large, // Themed
+        fontSize: FONT_SIZES.large,
       },
-      loadingOverlayScreen: { // For full-screen loading on create community
+      loadingOverlayScreen: {
         ...StyleSheet.absoluteFillObject,
         backgroundColor: colors.background,
         justifyContent: 'center',
@@ -414,7 +410,7 @@ const createStyles = (colors: ThemeColors) => {
       scrollViewContent: {
         flexGrow: 1,
         padding: SPACING.large,
-        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.xxlarge, // <--- ADDED BOTTOM_TAB_BAR_HEIGHT here
+        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.xxlarge,
       },
       loadingScreen: {
         flex: 1,
@@ -516,7 +512,7 @@ const createStyles = (colors: ThemeColors) => {
         color: colors.activeFilterText,
       },
     }),
- // CommunityDetailScreen Styles (Adding settings button styles)
+    // CommunityDetailScreen Styles (Adding settings button styles)
     communityDetailScreen: StyleSheet.create({
       scrollViewContent: {
         flexGrow: 1,
@@ -530,7 +526,7 @@ const createStyles = (colors: ThemeColors) => {
         color: colors.secondaryText,
         textAlign: 'center',
       },
-      headerContainer: { // NEW: Container for title and settings button
+      headerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -550,15 +546,14 @@ const createStyles = (colors: ThemeColors) => {
         fontSize: FONT_SIZES.heading1,
         fontWeight: "bold",
         color: colors.text,
-        flex: 1, // Allow text to take available space
-        textAlign: 'center', // Center it within its flex space
+        flex: 1,
+        textAlign: 'center',
       },
-      settingsButton: { // NEW: Style for the settings icon button
-        padding: SPACING.xsmall, // Padding around the icon
-        // Position it if needed, but flex in headerContainer handles it
+      settingsButton: {
+        padding: SPACING.xsmall,
       },
-      settingsIcon: { // NEW: Style for the icon color
-        color: colors.primary, // Primary color for the icon
+      settingsIcon: {
+        color: colors.primary,
       },
       description: {
         fontSize: FONT_SIZES.medium,
@@ -566,14 +561,14 @@ const createStyles = (colors: ThemeColors) => {
         marginBottom: SPACING.medium,
         textAlign: 'center',
       },
-      creatorButtonsContainer: { // Existing, but will be removed from main view
+      creatorButtonsContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         marginBottom: SPACING.medium,
         paddingHorizontal: SPACING.small,
       },
-      editButton: { // Existing, but will be used in EditCommunityScreen
+      editButton: {
         flex: 1,
         backgroundColor: colors.secondary,
         padding: SPACING.small,
@@ -586,7 +581,7 @@ const createStyles = (colors: ThemeColors) => {
         fontWeight: 'bold',
         fontSize: FONT_SIZES.medium,
       },
-      deleteButton: { // Existing, but will be used for actual delete logic
+      deleteButton: {
         flex: 1,
         backgroundColor: colors.error,
         padding: SPACING.small,
@@ -647,8 +642,8 @@ const createStyles = (colors: ThemeColors) => {
       createGroupButton: {
         backgroundColor: colors.primary,
         padding: SPACING.medium,
-        borderRadius: SPACING.small,
         alignItems: "center",
+        borderRadius: SPACING.small,
         marginTop: SPACING.large,
         marginBottom: SPACING.medium,
       },
@@ -661,13 +656,13 @@ const createStyles = (colors: ThemeColors) => {
         paddingBottom: SPACING.medium,
       },
     }),
-   
-     editCommunityScreen: StyleSheet.create({
+
+    editCommunityScreen: StyleSheet.create({
       scrollViewContent: {
         flexGrow: 1,
         padding: SPACING.large,
-        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.xxlarge, // Ensure space for bottom bar
-        backgroundColor: colors.background, // Themed
+        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.xxlarge,
+        backgroundColor: colors.background,
       },
       header: {
         fontSize: FONT_SIZES.heading2,
@@ -720,7 +715,7 @@ const createStyles = (colors: ThemeColors) => {
         height: 100,
         textAlignVertical: "top",
       },
-      saveButton: { // Renamed from createButton to saveButton for clarity
+      saveButton: {
         backgroundColor: colors.primary,
         padding: SPACING.medium,
         alignItems: "center",
@@ -732,12 +727,12 @@ const createStyles = (colors: ThemeColors) => {
         shadowRadius: 6,
         elevation: 8,
       },
-      saveButtonText: { // Renamed from createButtonText
+      saveButtonText: {
         color: colors.activeFilterText,
         fontWeight: "bold",
         fontSize: FONT_SIZES.large,
       },
-      loadingOverlayScreen: { // For full-screen loading on this screen
+      loadingOverlayScreen: {
         ...StyleSheet.absoluteFillObject,
         backgroundColor: colors.background,
         justifyContent: 'center',
@@ -750,7 +745,7 @@ const createStyles = (colors: ThemeColors) => {
         color: colors.text,
       },
     }),
-    
+
     // --- UserProfileScreen Styles (existing) ---
     userProfileScreen: StyleSheet.create({
       scrollViewContent: {
@@ -806,11 +801,119 @@ const createStyles = (colors: ThemeColors) => {
         textAlign: "center",
         marginBottom: SPACING.large,
       },
-      loadingText: { 
+      loadingText: {
         marginTop: SPACING.medium,
         fontSize: FONT_SIZES.medium,
         color: colors.secondaryText,
         textAlign: 'center',
+      },
+    }),
+    // NEW: Styles for ChatRoomScreen (1:1 chat)
+    chatRoomScreen: StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: colors.background,
+      },
+      headerContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: SPACING.medium,
+        paddingHorizontal: SPACING.large,
+        backgroundColor: colors.primary,
+        paddingTop: Platform.OS === 'android' ? SPACING.large : SPACING.xxlarge, // Adjust for status bar
+      },
+      backButton: {
+        paddingRight: SPACING.medium,
+        paddingVertical: SPACING.small,
+      },
+      backButtonText: {
+        color: colors.activeFilterText,
+        fontSize: FONT_SIZES.xlarge, // Using new FONT_SIZES
+        fontWeight: 'bold',
+      },
+      headerTitle: {
+        color: colors.activeFilterText,
+        fontSize: FONT_SIZES.large, // Using new FONT_SIZES
+        fontWeight: 'bold',
+        flex: 1,
+      },
+      messagesList: {
+        paddingVertical: SPACING.small,
+        paddingHorizontal: SPACING.medium,
+      },
+      messageBubble: {
+        padding: SPACING.small,
+        borderRadius: SPACING.medium,
+        marginBottom: SPACING.small,
+        maxWidth: '80%',
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 1,
+        elevation: 1,
+      },
+      myMessageBubble: {
+        alignSelf: 'flex-end',
+        backgroundColor: colors.primaryLight,
+        borderBottomRightRadius: SPACING.xsmall,
+      },
+      otherMessageBubble: {
+        alignSelf: 'flex-start',
+        backgroundColor: colors.cardBackground, // Changed from colors.surface to cardBackground for consistency
+        borderBottomLeftRadius: SPACING.xsmall,
+      },
+      myMessageText: {
+        color: colors.text,
+        fontSize: FONT_SIZES.medium,
+      },
+      otherMessageText: {
+        color: colors.text,
+        fontSize: FONT_SIZES.medium,
+      },
+      timestampText: {
+        fontSize: FONT_SIZES.xsmall,
+        color: colors.secondaryText,
+        alignSelf: 'flex-end',
+        marginTop: SPACING.xsmall / 2,
+      },
+      inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: SPACING.small,
+        backgroundColor: colors.surface,
+        borderTopWidth: 1,
+        borderColor: colors.borderColor,
+      },
+      textInput: {
+        flex: 1,
+        maxHeight: 100,
+        backgroundColor: colors.background,
+        borderRadius: SPACING.xlarge,
+        paddingHorizontal: SPACING.medium,
+        paddingVertical: SPACING.small,
+        marginRight: SPACING.small,
+        fontSize: FONT_SIZES.medium,
+        color: colors.text,
+        borderWidth: 1,
+        borderColor: colors.borderColor,
+      },
+      sendButton: {
+        backgroundColor: colors.primary,
+        borderRadius: SPACING.xlarge,
+        paddingVertical: SPACING.medium - 2, // Adjusted for visual balance
+        paddingHorizontal: SPACING.large,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
+      sendButtonText: {
+        color: colors.activeFilterText,
+        fontWeight: 'bold',
+        fontSize: FONT_SIZES.medium,
       },
     }),
   };

@@ -1,15 +1,12 @@
 // src/context/ThemeContext.tsx
 import React, { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
-import { ActivityIndicator, Appearance, useColorScheme, View, Text } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import { ActivityIndicator, Appearance, useColorScheme, View, Text, ColorValue } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define the shape of our theme colors
 export interface ThemeColors {
-  textPrimary: any;
-  secondary: any;
-  placeholder: any;
-  link: any;
-  error: any;
+  secondary: string;
+  textSecondary: string;
   background: string;
   cardBackground: string;
   text: string;
@@ -17,50 +14,76 @@ export interface ThemeColors {
   placeholderText: string;
   borderColor: string;
   shadowColor: string;
-  primary: string; // Accent color
+  primary: string; // Main accent color
+  primaryDark: string; // Darker shade of primary
+  primaryLight: string; // Lighter shade of primary (e.g., for message bubbles)
+  accent: string; // Secondary accent color (e.g., for certain UI elements)
+  surface: string; // Color for cards, sheets, dialogs
+  textPrimary: string; // Primary text color (same as 'text' usually)
+  link: string; // Color for clickable links
+  error: string; // Color for error messages
+  placeholder: string; // Color for placeholder elements/backgrounds
   filterButtonBackground: string;
   activeFilterBackground: string;
   activeFilterText: string;
-  // Add more colors as needed
+  success: string; // Added for completeness, if you use it later
+  warning: string; // Added for completeness, if you use it later
+  info: string;   // Added for completeness, if you use it later
 }
 
 // Define the light and dark theme color palettes
 const lightColors: ThemeColors = {
   background: '#f0f2f5',
   cardBackground: '#ffffff',
-  secondary: '#03DAC6',
+  surface: '#ffffff', // Explicitly defined
   text: '#333333',
   secondaryText: '#666666',
   placeholderText: '#888888',
   borderColor: '#e0e0e0',
   shadowColor: '#000000',
-  primary: '#6200EE', // Purple accent
+  primary: '#6200EE', // Deep Purple
+  primaryDark: '#3700B3', // Darker shade of primary
+  primaryLight: '#BB86FC', // Lighter shade of primary, used for my messages
+  accent: '#03DAC6', // Teal
+  textPrimary: '#333333', // Alias for text
+  link: '#2196F3', // Blue for links
+  error: '#B00020', // Red for errors
+  placeholder: '#BDBDBD', // Grey for placeholders
   filterButtonBackground: '#e0e0e0',
   activeFilterBackground: '#6200EE',
   activeFilterText: '#ffffff',
-  textPrimary: '#333333',
-  link: undefined,
-  error: undefined,
-  placeholder: undefined
+  success: '#4CAF50',
+  warning: '#FFC107',
+  info: '#2196F3',
+  textSecondary: '#666666',
+  secondary: '#666666'
 };
 
 const darkColors: ThemeColors = {
-  background: '#121212', // Very dark background
-  cardBackground: '#1e1e1e', // Slightly lighter dark for cards
-  secondary: '#03DAC6',
-  text: '#e0e0e0', // Light text on dark background
+  background: '#121212',
+  cardBackground: '#1e1e1e',
+  surface: '#1e1e1e', // Explicitly defined (same as cardBackground for consistency)
+  text: '#e0e0e0',
   secondaryText: '#a0a0a0',
   placeholderText: '#777777',
   borderColor: '#333333',
-  shadowColor: '#000000', // Still black for shadows, but with lower opacity
+  shadowColor: '#000000',
   primary: '#BB86FC', // Lighter purple accent for dark mode
+  primaryDark: '#794BC4', // Darker shade for dark primary
+  primaryLight:'rgb(59, 26, 135)', // Even lighter shade for dark mode messages
+  accent: '#03DAC6',
+  textPrimary: '#E0E0E0', // Alias for text
+  link: '#90CAF9', // Lighter blue for links in dark mode
+  error: '#CF6679', // Lighter red for errors in dark mode
+  placeholder: '#555555', // Darker grey for placeholders in dark mode
   filterButtonBackground: '#2a2a2a',
   activeFilterBackground: '#BB86FC',
-  activeFilterText: '#121212',
-  textPrimary: '#E0E0E0',
-  link: undefined,
-  error: undefined,
-  placeholder: undefined
+  activeFilterText: '#121212', // Dark text on light background in dark mode
+  success: '#66BB6A',
+  warning: '#FFEB3B',
+  info: '#64B5F6',
+  textSecondary: '#a0a0a0',
+  secondary: '#a0a0a0'
 };
 
 // Define the context type
@@ -68,7 +91,7 @@ interface ThemeContextType {
   theme: 'light' | 'dark';
   colors: ThemeColors;
   toggleTheme: () => void;
-  isThemeLoading: boolean; // New state to indicate if theme is still loading from storage
+  isThemeLoading: boolean;
 }
 
 // Create the context
@@ -83,11 +106,10 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const systemColorScheme = useColorScheme(); // 'light' or 'dark' or null
-  const [theme, setTheme] = useState<'light' | 'dark' | null>(null); // Initialize as null to indicate loading
-  const [isThemeLoading, setIsThemeLoading] = useState(true); // Track loading state
+  const systemColorScheme = useColorScheme();
+  const [theme, setTheme] = useState<'light' | 'dark' | null>(null);
+  const [isThemeLoading, setIsThemeLoading] = useState(true);
 
-  // Effect to load theme from AsyncStorage when component mounts
   useEffect(() => {
     const loadTheme = async () => {
       try {
@@ -95,12 +117,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         if (storedTheme === 'light' || storedTheme === 'dark') {
           setTheme(storedTheme);
         } else {
-          // If no stored theme, use system preference or default to 'light'
           setTheme(systemColorScheme || 'light');
         }
       } catch (e) {
         console.error("Failed to load theme from AsyncStorage:", e);
-        // Fallback to system preference or default if loading fails
         setTheme(systemColorScheme || 'light');
       } finally {
         setIsThemeLoading(false);
@@ -108,11 +128,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     };
 
     loadTheme();
-  }, [systemColorScheme]); // Re-run if systemColorScheme changes (though less common after initial load)
+  }, [systemColorScheme]);
 
-  // Effect to save theme to AsyncStorage when theme changes
   useEffect(() => {
-    if (theme !== null && !isThemeLoading) { // Only save once loaded and not during initial load
+    if (theme !== null && !isThemeLoading) {
       const saveTheme = async () => {
         try {
           await AsyncStorage.setItem(THEME_STORAGE_KEY, theme);
@@ -124,33 +143,25 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     }
   }, [theme, isThemeLoading]);
 
-  // Listener for system theme changes (primarily for native apps)
   useEffect(() => {
     const subscription = Appearance.addChangeListener(({ colorScheme }) => {
       if (colorScheme) {
-        // Only update if the user hasn't manually overridden the theme,
-        // or if you want system changes to always override.
-        // For simplicity, we'll let system changes update the state,
-        // which then triggers a save to AsyncStorage.
         setTheme(colorScheme);
       }
     });
     return () => subscription.remove();
-  }, []); // Empty dependency array means this listener only runs once on mount
+  }, []);
 
   const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => {
       const newTheme = prevTheme === 'light' ? 'dark' : 'light';
-      // No need to save here, as the useEffect will handle it
       return newTheme;
     });
   }, []);
 
-  // Provide default colors while theme is loading to prevent flickering
   const colors = theme === 'light' ? lightColors : darkColors;
 
   if (isThemeLoading) {
-    // You might want a splash screen or a simple loading indicator here
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: lightColors.background }}>
         <ActivityIndicator size="large" color={lightColors.primary} />
@@ -166,7 +177,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   );
 };
 
-// Custom hook to use the theme
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) {
