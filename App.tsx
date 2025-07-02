@@ -25,7 +25,7 @@ const MainNavigator = () => {
   return (
         <ThemeProvider>
 
-    <NavigationContainer>
+      <NavigationContainer> 
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <>

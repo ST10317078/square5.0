@@ -5,6 +5,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define the shape of our theme colors
 export interface ThemeColors {
+  icon: any;
+  buttonText: any;
+  border: any;
   secondary: string;
   textSecondary: string;
   background: string;
@@ -56,7 +59,10 @@ const lightColors: ThemeColors = {
   warning: '#FFC107',
   info: '#2196F3',
   textSecondary: '#666666',
-  secondary: '#666666'
+  secondary: '#666666',
+  icon: undefined,
+  buttonText: undefined,
+  border: undefined
 };
 
 const darkColors: ThemeColors = {
@@ -70,7 +76,7 @@ const darkColors: ThemeColors = {
   shadowColor: '#000000',
   primary: '#BB86FC', // Lighter purple accent for dark mode
   primaryDark: '#794BC4', // Darker shade for dark primary
-  primaryLight:'rgb(59, 26, 135)', // Even lighter shade for dark mode messages
+  primaryLight: 'rgb(59, 26, 135)', // Even lighter shade for dark mode messages
   accent: '#03DAC6',
   textPrimary: '#E0E0E0', // Alias for text
   link: '#90CAF9', // Lighter blue for links in dark mode
@@ -83,7 +89,10 @@ const darkColors: ThemeColors = {
   warning: '#FFEB3B',
   info: '#64B5F6',
   textSecondary: '#a0a0a0',
-  secondary: '#a0a0a0'
+  secondary: '#a0a0a0',
+  icon: undefined,
+  buttonText: undefined,
+  border: undefined
 };
 
 // Define the context type

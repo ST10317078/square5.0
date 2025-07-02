@@ -10,6 +10,10 @@ export type RootStackParamList = {
     UserProfileScreen: { userId: string };
     ChatScreen: undefined; // ✅ Ensure this exists
     EditCommunityScreen: { community: Community }
+ 
+      Auth: undefined; // For the AuthScreen when not logged in
+    BottomTabs: undefined; // For the BottomTabsNavigator
+  
   };
   
   export type Community = {
