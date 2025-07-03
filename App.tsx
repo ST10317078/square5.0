@@ -14,6 +14,7 @@ import BottomBar from "./Screens/Tabs/BottomTabsNavigator";
 import UserProfileScreen from "./Screens/userProfileScreen";
 import EditCommunityScreen from "./Screens/EditCommunityScreen";
 import ChatRoomScreen from './Screens/ChatRoomScreen'; // NEW: For 1:1 chats
+import CreateGroupChatScreen from './Screens/CreateGroupChatScreen'; // Adjust path as needed
 
 import  {ThemeProvider} from './Screens/context/ThemeContext'; // Adjust path to your ThemeContext
 
@@ -39,12 +40,16 @@ const MainNavigator = () => {
             <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} />
             <Stack.Screen name="EditCommunityScreen" component={EditCommunityScreen} />
             <Stack.Screen name="ChatRoomScreen" component={ChatRoomScreen} /> 
-
-          </>
-        ) : (
-          <Stack.Screen name="AuthScreen" component={AuthScreen} />
-        )}
-      </Stack.Navigator>
+            <Stack.Screen
+              name="CreateGroupChatScreen"
+              component={CreateGroupChatScreen}
+              options={{ title: "Create New Group Chat" }} 
+            />
+              </>
+            ) : (
+              <Stack.Screen name="AuthScreen" component={AuthScreen} />
+            )}
+          </Stack.Navigator>
 
       {/* ✅ Show Bottom Bar only if user is logged in & NOT on GroupChatScreen */}
       {user && <BottomBarWrapper />}

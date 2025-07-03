@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  // StyleSheet, // Removed as all styles are external
   FlatList,
   Alert,
   ActivityIndicator,
@@ -248,7 +247,8 @@ const CommunityDetailScreen = () => {
 
       {/* Show Create Group Button Only if User is a Member */}
       {isMember && (
-        <TouchableOpacity style={styles.createGroupButton}>
+        <TouchableOpacity style={styles.createGroupButton}
+                  onPress={() => navigation.navigate("CreateGroupChatScreen", { communityId: communityData.id })}>
           <Text style={styles.createGroupButtonText}>+ Create Group Chat</Text>
         </TouchableOpacity>
       )}

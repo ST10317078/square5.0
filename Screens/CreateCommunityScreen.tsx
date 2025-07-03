@@ -218,8 +218,8 @@ const CreateCommunityScreen = () => {
           editable={!loading}
         />
 
-        <TouchableOpacity style={styles.createButton} onPress={handleCreateCommunity} disabled={loading}>
-          {loading ? <ActivityIndicator color={colors.activeFilterText} /> : <Text style={styles.createButtonText}>Create Community</Text>}
+        <TouchableOpacity style={styles.saveButton} onPress={handleCreateCommunity} disabled={loading}>
+          {loading ? <ActivityIndicator color={colors.activeFilterText} /> : <Text style={styles.saveButtonText}>Create Community</Text>}
         </TouchableOpacity>
       </ScrollView>
     </View>

@@ -513,7 +513,7 @@ const ChatRoomScreen = () => {
 
       {/* Attachment Options View - toggled by showAttachmentOptions */}
       {showAttachmentOptions && (
-        <View style={styles.attachmentOptionsContainer}>
+        <View style={styles.emojiPickerContainer}>
           <TouchableOpacity onPress={() => handlePickMedia('image')} style={styles.attachmentOptionButton}>
             <Text style={styles.attachmentOptionButtonText}>📸 Image</Text>
           </TouchableOpacity>
@@ -522,10 +522,6 @@ const ChatRoomScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity onPress={handlePickFile} style={styles.attachmentOptionButton}>
             <Text style={styles.attachmentOptionButtonText}>📁 File</Text>
-          </TouchableOpacity>
-          {/* Option to open emoji picker from here */}
-          <TouchableOpacity onPress={() => { setShowEmojiPicker(!showEmojiPicker); setShowAttachmentOptions(false); }} style={styles.attachmentOptionButton}>
-            <Text style={styles.attachmentOptionButtonText}>😊 Emoji</Text>
           </TouchableOpacity>
         </View>
       )}

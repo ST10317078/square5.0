@@ -1,5 +1,3 @@
-// Screens/CommunityScreen.tsx
-
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -250,7 +248,7 @@ const CommunityScreen = () => {
         showsVerticalScrollIndicator={Platform.OS !== 'web'}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.container}>
+        <View>
           <View style={styles.headerContainer}>
             <Text style={styles.pageTitle}>Explore & Chat</Text>
             <View style={styles.themeToggleContainer}>

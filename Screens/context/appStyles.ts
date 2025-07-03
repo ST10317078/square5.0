@@ -81,6 +81,15 @@ const createStyles = (colors: ThemeColors) => {
     }),
 
     communityScreen: StyleSheet.create({
+      
+      scrollView: {
+        flex: 1,
+        backgroundColor: colors.background,
+      },
+      scrollViewContent: {
+        flexGrow: 1,
+        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large,
+      },
       safeArea: {
         flex: 1,
         backgroundColor: colors.background,
@@ -354,6 +363,7 @@ const createStyles = (colors: ThemeColors) => {
     }),
 
     createCommunityScreen: StyleSheet.create({
+    
       container: {
         flex: 1,
         padding: SPACING.large,
@@ -442,6 +452,394 @@ const createStyles = (colors: ThemeColors) => {
     }),
 
     profileScreen: StyleSheet.create({
+      safeArea: {
+        flex: 1,
+        backgroundColor: colors.background,
+      },
+      scrollViewContent: {
+        flexGrow: 1,
+        padding: SPACING.large,
+        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.xxlarge,
+      },
+      loadingScreen: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.background,
+      },
+      loadingScreenText: {
+        marginTop: SPACING.small,
+        fontSize: FONT_SIZES.medium,
+        fontWeight: 'bold',
+        color: colors.text,
+      },
+      headerContainer: {
+        marginBottom: SPACING.xlarge,
+        alignItems: 'center',
+      },
+      headerTitle: {
+        fontSize: FONT_SIZES.heading1,
+        fontWeight: "bold",
+        color: colors.text,
+      },
+      profilePicContainer: {
+        alignItems: "center",
+        marginBottom: SPACING.xlarge,
+      },
+      profilePic: {
+        width: 130,
+        height: 130,
+        borderRadius: 65,
+        borderWidth: 3,
+        backgroundColor: colors.cardBackground,
+      },
+      changePicText: {
+        marginTop: SPACING.small,
+        fontSize: FONT_SIZES.medium,
+        fontWeight: "600",
+        color: colors.primary,
+      },
+      inputSection: {
+        marginBottom: SPACING.large,
+        width: '100%',
+      },
+      label: {
+        fontSize: FONT_SIZES.medium,
+        color: colors.text,
+        marginBottom: SPACING.small,
+        fontWeight: '600',
+      },
+      textInput: {
+        borderRadius: SPACING.small,
+        paddingVertical: SPACING.small + 2,
+        paddingHorizontal: SPACING.medium,
+        fontSize: FONT_SIZES.medium,
+        borderWidth: 1,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 4,
+        backgroundColor: colors.cardBackground,
+        borderColor: colors.borderColor,
+        color: colors.text,
+        shadowColor: colors.shadowColor,
+        ...Platform.select({
+          web: {
+            outlineStyle: 'none' as 'none',
+            boxShadow: '0px 2px 3px rgba(0,0,0,0.1)',
+          }
+        })
+      },
+      aboutMeInput: {
+        height: 120,
+        textAlignVertical: "top",
+        lineHeight: FONT_SIZES.xlarge,
+      },
+      saveButton: {
+        marginTop: SPACING.xlarge,
+        backgroundColor: colors.primary,
+        paddingVertical: SPACING.medium,
+        borderRadius: SPACING.large,
+        alignItems: "center",
+        justifyContent: "center",
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 12,
+        shadowColor: colors.shadowColor,
+        ...Platform.select({
+          web: {
+            cursor: 'pointer',
+            boxShadow: '0px 6px 8px rgba(0,0,0,0.3)',
+          }
+        })
+      },
+      saveButtonText: {
+        fontSize: FONT_SIZES.large,
+        fontWeight: "bold",
+        letterSpacing: 0.5,
+        color: colors.activeFilterText,
+      },
+    }),
+
+ createGroupChatScreen: StyleSheet.create({ 
+      container: {
+        flex: 1,
+        padding: SPACING.medium,
+        backgroundColor: colors.background,
+      },
+      title: {
+        fontSize: 24,
+        fontWeight: "bold",
+        color: colors.text,
+        marginBottom: SPACING.large,
+        textAlign: "center",
+      },
+      input: {
+        backgroundColor: colors.cardBackground,
+        color: colors.text,
+        padding: SPACING.medium,
+        borderRadius: 8,
+        fontSize: 16,
+        marginBottom: SPACING.large,
+        borderWidth: 1,
+        borderColor: colors.border,
+      },
+      createButton: {
+        backgroundColor: colors.primary,
+        padding: SPACING.large,
+        borderRadius: 8,
+        alignItems: "center",
+      },
+      createButtonText: {
+        color: colors.buttonText,
+        fontSize: 18,
+        fontWeight: "bold",
+      },
+            errorText: {
+        fontSize: 18,
+        color: colors.text, // Assuming you have a 'danger' color for errors
+        textAlign: 'center',
+        marginBottom: SPACING.medium,
+      },
+      loginPromptText: {
+        fontSize: 16,
+        color: colors.primary, // Primary color for a clickable link
+        textAlign: 'center',
+        textDecorationLine: 'underline',
+      }
+    
+ }),
+
+    communityDetailScreen: StyleSheet.create({
+      scrollViewContent: {
+        flexGrow: 1,
+        padding: SPACING.medium,
+        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large,
+        backgroundColor: colors.background,
+      },
+      loadingText: {
+        marginTop: SPACING.medium,
+        fontSize: FONT_SIZES.medium,
+        color: colors.secondaryText,
+        textAlign: 'center',
+      },
+      headerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: SPACING.medium,
+      },
+      communityLogo: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        alignSelf: 'center',
+        marginBottom: SPACING.medium,
+        borderWidth: 2,
+        borderColor: colors.borderColor,
+        backgroundColor: colors.cardBackground,
+      },
+      header: {
+        fontSize: FONT_SIZES.heading1,
+        fontWeight: "bold",
+        color: colors.text,
+        flex: 1,
+        textAlign: 'center',
+      },
+      settingsButton: {
+        padding: SPACING.xsmall,
+      },
+      settingsIcon: {
+        color: colors.primary,
+      },
+      description: {
+        fontSize: FONT_SIZES.medium,
+        color: colors.secondaryText,
+        marginBottom: SPACING.medium,
+        textAlign: 'center',
+      },
+      creatorButtonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        marginBottom: SPACING.medium,
+        paddingHorizontal: SPACING.small,
+      },
+      editButton: {
+        flex: 1,
+        backgroundColor: colors.secondary,
+        padding: SPACING.small,
+        borderRadius: SPACING.small,
+        alignItems: 'center',
+        marginRight: SPACING.small,
+      },
+      editButtonText: {
+        color: colors.textPrimary,
+        fontWeight: 'bold',
+        fontSize: FONT_SIZES.medium,
+      },
+      deleteButton: {
+        flex: 1,
+        backgroundColor: colors.error,
+        padding: SPACING.small,
+        borderRadius: SPACING.small,
+        alignItems: 'center',
+        marginLeft: SPACING.small,
+      },
+      deleteButtonText: {
+        color: colors.activeFilterText,
+        fontWeight: 'bold',
+        fontSize: FONT_SIZES.medium,
+      },
+      joinButton: {
+        backgroundColor: colors.primary,
+        padding: SPACING.medium,
+        borderRadius: SPACING.small,
+        alignItems: "center",
+        marginBottom: SPACING.medium,
+      },
+      joinButtonText: {
+        color: colors.activeFilterText,
+        fontWeight: "bold",
+        fontSize: FONT_SIZES.large,
+      },
+      subHeader: {
+        fontSize: FONT_SIZES.xlarge,
+        fontWeight: "bold",
+        color: colors.text,
+        marginBottom: SPACING.small,
+        marginTop: SPACING.medium,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.borderColor,
+        paddingBottom: SPACING.xsmall,
+      },
+      groupChatItem: {
+        padding: SPACING.medium,
+        backgroundColor: colors.cardBackground,
+        borderRadius: SPACING.small,
+        marginBottom: SPACING.small,
+        borderWidth: 1,
+        borderColor: colors.borderColor,
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+      groupChatText: {
+        fontSize: FONT_SIZES.medium,
+        color: colors.text,
+      },
+      noGroupsText: {
+        textAlign: "center",
+        color: colors.secondaryText,
+        marginTop: SPACING.large,
+      },
+      createGroupButton: {
+        backgroundColor: colors.accent,
+        paddingVertical: SPACING.medium,
+        marginTop: SPACING.medium,
+      },
+      createGroupButtonText: {
+        color: colors.activeFilterText,
+        fontWeight: 'bold',
+        textAlign: 'center',
+      },
+      flatListContent: { // For FlatList within CommunityDetailScreen
+        paddingBottom: 150, // Ensure space for content below FlatList
+      },
+    }),
+
+    CreateCommunityScreen: StyleSheet.create({
+      container: {
+        flex: 1,
+        padding: SPACING.large,
+        backgroundColor: colors.background,
+      },
+      header: {
+        fontSize: FONT_SIZES.heading2,
+        fontWeight: "bold",
+        marginBottom: SPACING.medium,
+        color: colors.text,
+        textAlign: 'center',
+      },
+      logoContainer: {
+        alignSelf: 'center',
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: colors.cardBackground,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: SPACING.large,
+        borderWidth: 2,
+        borderColor: colors.borderColor,
+        overflow: 'hidden',
+      },
+      logoImage: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+      },
+      addLogoText: {
+        color: colors.primary,
+        fontSize: FONT_SIZES.medium,
+        fontWeight: '600',
+        marginTop: SPACING.small,
+      },
+      input: {
+        height: 50,
+        backgroundColor: colors.cardBackground,
+        paddingHorizontal: SPACING.small,
+        borderRadius: SPACING.small,
+        marginBottom: SPACING.medium,
+        borderWidth: 1,
+        borderColor: colors.borderColor,
+        fontSize: FONT_SIZES.medium,
+        color: colors.text,
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 2,
+      },
+      textArea: {
+        height: 100,
+        textAlignVertical: "top",
+      },
+      saveButton: {
+        backgroundColor: colors.primary,
+        padding: SPACING.medium,
+        alignItems: "center",
+        borderRadius: SPACING.small,
+        marginTop: SPACING.medium,
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 6,
+        elevation: 8,
+      },
+      saveButtonText: {
+        color: colors.activeFilterText,
+        fontWeight: "bold",
+        fontSize: FONT_SIZES.large,
+      },
+      loadingOverlayScreen: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: colors.background,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 999,
+      },
+      loadingOverlayText: {
+        marginTop: SPACING.medium,
+        fontSize: FONT_SIZES.medium,
+        color: colors.text,
+      },
+    }),
+
+  ProfileScreen: StyleSheet.create({
       safeArea: {
         flex: 1,
         backgroundColor: colors.background,
@@ -834,7 +1232,6 @@ const createStyles = (colors: ThemeColors) => {
         color: colors.text,
       },
     }),
-    // Removed mediaOptionsModal styles as it's no longer in use
   };
 };
 
