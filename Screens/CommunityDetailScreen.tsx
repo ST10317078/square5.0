@@ -248,7 +248,7 @@ const CommunityDetailScreen = () => {
       {/* Show Create Group Button Only if User is a Member */}
       {isMember && (
         <TouchableOpacity style={styles.createGroupButton}
-                  onPress={() => navigation.navigate("CreateGroupChatScreen", { communityId: communityData.id })}>
+                  onPress={() => navigation.navigate("CreateGroupChatScreen", { communityId: community.id })}>
           <Text style={styles.createGroupButtonText}>+ Create Group Chat</Text>
         </TouchableOpacity>
       )}
