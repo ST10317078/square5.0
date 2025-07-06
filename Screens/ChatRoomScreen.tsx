@@ -5,23 +5,23 @@ import { View, Text, TextInput, TouchableOpacity, FlatList, ActivityIndicator, K
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { doc, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, getDoc, updateDoc } from 'firebase/firestore';
 import { db, auth } from '../firebaseConfig';
-import { RootStackParamList } from '../types';
+import { RootStackParamList } from '../types'; //
 
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-import createStyles, { SPACING, FONT_SIZES } from './context/appStyles';
-import { useTheme } from './context/ThemeContext';
+import createStyles, { SPACING, FONT_SIZES } from './context/appStyles'; //
+import { useTheme } from './context/ThemeContext'; //
 
 type ChatRoomScreenRouteProp = RouteProp<RootStackParamList, 'ChatRoomScreen'>;
-type ChatRoomScreenNavigationProp = any;
+type ChatRoomScreenNavigationProp = any; // You might want to define a more specific type here from StackNavigationProp<RootStackParamList>
 
 interface Message {
   id: string;
   text?: string;
   senderId: string;
-  createdAt: any;
+  createdAt: any; // Firestore Timestamp or Date
   mediaUrl?: string;
   mediaType?: 'image' | 'video' | 'file';
   fileName?: string;
@@ -34,6 +34,7 @@ interface Message {
 
 const AVATAR_PLACEHOLDER = require("../assets/avatar-placeholder.png");
 
+// Ensure EMOJI_API_URL has a valid API key or remove if not using dynamic emojis
 const EMOJI_API_URL = 'https://emoji-api.com/emojis?access_key=YOUR_API_KEY'; // REPLACE 'YOUR_API_KEY' if using
 
 const FALLBACK_EMOJIS = [
@@ -105,7 +106,7 @@ const ChatRoomScreen = () => {
             setRecipientUsername('User Not Found');
             setRecipientProfilePic(null);
           }
-        } catch (error) {
+        } catch (error: any) { // Fix: Add :any to error
           console.error("Error fetching recipient data:", error);
           setRecipientUsername('Error');
           setRecipientProfilePic(null);
@@ -147,15 +148,17 @@ const ChatRoomScreen = () => {
           }
         });
         
+        // Filter out fully uploaded optimistic messages that are now part of serverMessages
         const finalMessages = [...optimisticMessagesStillUploading.filter(msg => !serverMessages.some(sm => sm.id === msg.id)), ...mergedMessages];
 
         return finalMessages.sort((a, b) => {
+          // Sort by createdAt timestamp if available, otherwise by tempId for optimistic messages
           const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : (a.tempId ? Number(a.tempId.split('_')[1]) : Infinity);
           const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : (b.tempId ? Number(b.tempId.split('_')[1]) : Infinity);
           return timeA - timeB;
         });
       });
-    }, (error) => {
+    }, (error: any) => { // Fix: Add :any to error
       console.error("Error fetching messages:", error);
       Alert.alert("Error", `Failed to load messages: ${(error as Error).message}`);
     });
@@ -179,7 +182,7 @@ const ChatRoomScreen = () => {
         .map((emoji: { character: string }) => emoji.character);
 
       setEmojis(fetchedEmojiCharacters.slice(0, 200)); // Limit for performance
-    } catch (error) {
+    } catch (error: any) { // Fix: Add :any to error
       console.error("Error fetching emojis:", error);
       setEmojis(FALLBACK_EMOJIS);
       Alert.alert("Emoji Load Error", "Failed to load dynamic emojis. Using a default set. Check API key/URL.");
@@ -195,61 +198,61 @@ const ChatRoomScreen = () => {
   }, [showEmojiPicker, emojis.length, fetchingEmojis, fetchEmojis]);
 
 
- const uploadMediaToFirebase = async (
-  uri: string,
-  fileType: 'image' | 'video' | 'file',
-  fileNameWithExtension: string = 'file',
-  tempMessageId: string
-) => {
-  setIsUploadingMedia(true);
-  const response = await fetch(uri);
-  const blob = await response.blob();
+  const uploadMediaToFirebase = async (
+    uri: string,
+    fileType: 'image' | 'video' | 'file',
+    fileNameWithExtension: string = 'file',
+    tempMessageId: string
+  ) => {
+    setIsUploadingMedia(true);
+    const response = await fetch(uri);
+    const blob = await response.blob();
 
-  const path = `chat_media/${chatId}/${currentUser?.uid}_${tempMessageId.split('_')[1]}_${fileNameWithExtension}`;
-  const storageRef = ref(storage, path);
-  const uploadTask = uploadBytesResumable(storageRef, blob);
+    const path = `chat_media/${chatId}/${currentUser?.uid}_${tempMessageId.split('_')[1]}_${fileNameWithExtension}`;
+    const storageRef = ref(storage, path);
+    const uploadTask = uploadBytesResumable(storageRef, blob);
 
-  return new Promise<string>((resolve, reject) => {
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes);
-        setMessages(prevMessages =>
-          prevMessages.map(msg =>
-            msg.tempId === tempMessageId ? { ...msg, uploadProgress: progress * 100 } : msg
-          )
-        );
-      },
-      (error) => {
-        console.error(`Media/File upload failed (${fileType}):`, error);
-        setIsUploadingMedia(false);
-        setMessages(prevMessages =>
-          prevMessages.map(msg =>
-            msg.tempId === tempMessageId ? { ...msg, uploading: false, uploadError: error.message } : msg
-          )
-        );
-        reject(error);
-      },
-      async () => {
-        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        setIsUploadingMedia(false);
-        setMessages(prevMessages =>
-          prevMessages.map(msg =>
-            msg.tempId === tempMessageId ? { ...msg, uploading: false, uploadProgress: 100, mediaUrl: downloadURL } : msg
-          )
-        );
-        sendMessage({
-          mediaUrl: downloadURL,
-          mediaType: fileType,
-          fileName: fileType === 'file' ? fileNameWithExtension : undefined,
-          fileSize: blob.size,
-        });
+    return new Promise<string>((resolve, reject) => {
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes);
+          setMessages(prevMessages =>
+            prevMessages.map(msg =>
+              msg.tempId === tempMessageId ? { ...msg, uploadProgress: progress * 100 } : msg
+            )
+          );
+        },
+        (error: any) => { // Fix: Add :any to error
+          console.error(`Media/File upload failed (${fileType}):`, error);
+          setIsUploadingMedia(false);
+          setMessages(prevMessages =>
+            prevMessages.map(msg =>
+              msg.tempId === tempMessageId ? { ...msg, uploading: false, uploadError: error.message } : msg
+            )
+          );
+          reject(error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setIsUploadingMedia(false);
+          setMessages(prevMessages =>
+            prevMessages.map(msg =>
+              msg.tempId === tempMessageId ? { ...msg, uploading: false, uploadProgress: 100, mediaUrl: downloadURL } : msg
+            )
+          );
+          sendMessage({
+            mediaUrl: downloadURL,
+            mediaType: fileType,
+            fileName: fileType === 'file' ? fileNameWithExtension : undefined,
+            fileSize: blob.size,
+          });
 
-        resolve(downloadURL);
-      }
-    );
-  });
-};
+          resolve(downloadURL);
+        }
+      );
+    });
+  };
 
 
   const sendMessage = async (messageContent: { text?: string; mediaUrl?: string; mediaType?: 'image' | 'video' | 'file'; fileName?: string; fileSize?: number }) => {
@@ -261,12 +264,12 @@ const ChatRoomScreen = () => {
 
     let optimisticMessage: Message | undefined;
 
-    if (messageContent.text && !messageContent.mediaUrl) {
+    if (!messageContent.mediaUrl) { // Only create optimistic message for text or if media upload is handled separately
         const tempId = `temp_${Date.now()}`;
         optimisticMessage = {
-            id: tempId, tempId, senderId: currentUser.uid, createdAt: new Date(),
+            id: tempId, tempId, senderId: currentUser.uid, createdAt: new Date(), // Use new Date() for optimistic timestamp
             text: messageContent.text,
-            uploading: true,
+            uploading: true, // Mark as uploading initially for text messages too, set false on success
             uploadProgress: 0,
         };
         setMessages(prevMessages => [...prevMessages, optimisticMessage!]);
@@ -278,7 +281,7 @@ const ChatRoomScreen = () => {
 
       const messageData: { [key: string]: any } = { // Use index signature to allow dynamic fields
         senderId: currentUser.uid,
-        createdAt: serverTimestamp(),
+        createdAt: serverTimestamp(), // Use serverTimestamp for Firestore
       };
 
       if (messageContent.text !== undefined) messageData.text = messageContent.text;
@@ -289,8 +292,9 @@ const ChatRoomScreen = () => {
 
 
       const newMessageRef = await addDoc(collection(chatDocRef, 'messages'), messageData);
+      
 
-      if (optimisticMessage && optimisticMessage.tempId && !messageContent.mediaUrl) {
+      if (optimisticMessage && optimisticMessage.tempId) { // Update optimistic message with real ID and status
           setMessages(prevMessages =>
               prevMessages.map(msg =>
                   msg.tempId === optimisticMessage!.tempId ? { ...msg, id: newMessageRef.id, tempId: undefined, uploading: false, uploadProgress: 100 } : msg
@@ -304,25 +308,26 @@ const ChatRoomScreen = () => {
       else if (messageContent.mediaType === 'video') lastMessagePreviewText = 'Video 🎥';
       else if (messageContent.mediaType === 'file') lastMessagePreviewText = `File 📄: ${messageContent.fileName}`;
 
+      // This is the CRUCIAL update for CommunityScreen optimization
       await updateDoc(chatDocRef, {
         lastMessageText: lastMessagePreviewText,
-        lastMessageSenderId: currentUser.uid,
+        lastMessageSenderId: currentUser.uid, // Assuming you want sender ID on the chat document
         lastMessageTimestamp: serverTimestamp(),
       });
 
       setNewMessage('');
       setShowEmojiPicker(false);
       setShowAttachmentOptions(false); // Close attachment options
-    } catch (error) {
+    } catch (error: any) { // Fix: Add :any to error
       console.error("Error sending message:", error);
       Alert.alert("Error", `Could not send message: ${(error as Error).message}`);
-       if (optimisticMessage && optimisticMessage.tempId && !messageContent.mediaUrl) {
-          setMessages(prevMessages =>
-              prevMessages.map(msg =>
-                  msg.tempId === optimisticMessage!.tempId ? { ...msg, uploading: false, uploadError: (error as Error).message } : msg
-              )
-          );
-       }
+        if (optimisticMessage && optimisticMessage.tempId) {
+            setMessages(prevMessages =>
+                prevMessages.map(msg =>
+                    msg.tempId === optimisticMessage!.tempId ? { ...msg, uploading: false, uploadError: (error as Error).message } : msg
+                )
+            );
+        }
     }
   };
 
@@ -343,7 +348,7 @@ const ChatRoomScreen = () => {
         aspect: [4, 3],
         quality: 0.7,
       });
-    } else {
+    } else { // mediaType === 'video'
       result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Videos,
         quality: 0.7,
@@ -355,6 +360,7 @@ const ChatRoomScreen = () => {
       const fileNameWithExtension = uri.split('/').pop() || (mediaType === 'image' ? 'image.jpg' : 'video.mp4');
       const tempId = `temp_${Date.now()}`;
 
+      // Optimistic update for media messages
       setMessages(prevMessages => [...prevMessages, {
         id: tempId, tempId, senderId: currentUser!.uid, createdAt: new Date(),
         mediaUrl: uri, mediaType, uploading: true, uploadProgress: 0
@@ -363,7 +369,7 @@ const ChatRoomScreen = () => {
 
       try {
         await uploadMediaToFirebase(uri, mediaType, fileNameWithExtension, tempId);
-      } catch (error) {
+      } catch (error: any) { // Fix: Add :any to error
         // Error handled in uploadMediaToFirebase
       }
     }
@@ -393,6 +399,7 @@ const ChatRoomScreen = () => {
         const fileNameWithExtension = `${fileName.split('.')[0] || 'file'}.${fileExtension}`;
         const tempId = `temp_${Date.now()}`;
 
+        // Optimistic update for file messages
         setMessages(prevMessages => [...prevMessages, {
           id: tempId, tempId, senderId: currentUser!.uid, createdAt: new Date(),
           mediaUrl: uri, mediaType: 'file', fileName, fileSize, uploading: true, uploadProgress: 0
@@ -401,11 +408,11 @@ const ChatRoomScreen = () => {
 
         try {
           await uploadMediaToFirebase(uri, 'file', fileNameWithExtension, tempId);
-        } catch (error) {
+        } catch (error: any) { // Fix: Add :any to error
           // Error handled in uploadMediaToFirebase
         }
       }
-    } catch (error) {
+    } catch (error: any) { // Fix: Add :any to error
       console.error("Error picking file:", error);
       Alert.alert("File Picker Error", `Failed to pick file: ${(error as Error).message}`);
     }
@@ -443,7 +450,7 @@ const ChatRoomScreen = () => {
         ) : item.mediaType === 'video' && item.mediaUrl ? (
           <TouchableOpacity onPress={() => Linking.openURL(item.mediaUrl!)} style={styles.videoMessageContainer}>
             <Image
-              source={{ uri: `https://placehold.co/200x150/000000/FFFFFF?text=VIDEO%0APreview` }}
+              source={{ uri: `https://placehold.co/200x150/000000/FFFFFF?text=VIDEO%0APreview` }} // Placeholder thumbnail
               style={styles.mediaMessageImage}
             />
             <Text style={styles.videoPlayText}>Tap to Play Video</Text>
@@ -480,7 +487,19 @@ const ChatRoomScreen = () => {
     return (
       <View style={globalStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ color: colors.text }}>Loading messages...</Text>
+        <Text style={{ color: colors.textPrimary }}>Loading messages...</Text> {/* Use textPrimary */}
+      </View>
+    );
+  }
+
+  // Fallback for not logged in
+  if (!currentUser) {
+    return (
+      <View style={globalStyles.centeredContainer}>
+        <Text style={globalStyles.errorText}>You must be logged in to view this chat.</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("AuthScreen")}>
+          <Text style={globalStyles.loginPromptText}>Go to Login</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -509,11 +528,14 @@ const ChatRoomScreen = () => {
         renderItem={renderMessage}
         inverted={false}
         contentContainerStyle={styles.messagesList}
+        onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
+        onLayout={() => flatListRef.current?.scrollToEnd({ animated: true })}
       />
 
       {/* Attachment Options View - toggled by showAttachmentOptions */}
       {showAttachmentOptions && (
-        <View style={styles.emojiPickerContainer}>
+        // Changed from emojiPickerContainer to attachmentOptionsContainer
+        <View style={styles.attachmentOptionsContainer}>
           <TouchableOpacity onPress={() => handlePickMedia('image')} style={styles.attachmentOptionButton}>
             <Text style={styles.attachmentOptionButtonText}>📸 Image</Text>
           </TouchableOpacity>
@@ -563,8 +585,6 @@ const ChatRoomScreen = () => {
             </TouchableOpacity>
 
             {/* Toggle Emoji Picker Button */}
-            {/* This button can be removed if emojis are only accessed via attachment options */}
-            {/* If you want a separate emoji button ALWAYS visible, keep this. */}
             <TouchableOpacity onPress={() => setShowEmojiPicker(!showEmojiPicker)} style={styles.emojiButton}>
               <Text style={styles.emojiButtonText}>😊</Text>
             </TouchableOpacity>

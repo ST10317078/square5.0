@@ -43,7 +43,7 @@ const UserProfileScreen = () => {
   const { userId } = route.params;
 
   const { colors } = useTheme();
-  const styles = createStyles(colors).userProfileScreen;
+  const styles = createStyles(colors).userprofileScreen;
   const globalStyles = createStyles(colors).global;
 
   const [user, setUser] = useState<UserData | null>(null);

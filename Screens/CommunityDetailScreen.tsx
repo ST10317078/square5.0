@@ -11,14 +11,14 @@ import {
 } from "react-native";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList, Community } from "../types";
+import { RootStackParamList, Community } from "../types"; //
 import { db, auth, storage } from "../firebaseConfig";
 import { doc, getDoc, updateDoc, setDoc, arrayUnion, collection, getDocs, deleteDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import { Ionicons } from "@expo/vector-icons"; // <--- Import Ionicons
+import { Ionicons } from "@expo/vector-icons"; //
 
-import { useTheme } from './context/ThemeContext';
-import createStyles, { SPACING, BOTTOM_TAB_BAR_HEIGHT } from './context/appStyles';
+import { useTheme } from './context/ThemeContext'; //
+import createStyles, { SPACING, BOTTOM_TAB_BAR_HEIGHT } from './context/appStyles'; //
 
 const DEFAULT_COMMUNITY_LOGO = require("../assets/community-placeholder.png");
 
@@ -39,23 +39,28 @@ const CommunityDetailScreen = () => {
   const user = auth.currentUser;
 
   const { colors } = useTheme();
-  const styles = createStyles(colors).communityDetailScreen;
+  const styles = createStyles(colors).communityDetailScreen; // THIS LINE IS CORRECT
   const globalStyles = createStyles(colors).global;
 
   const isCreator = user && communityData.createdBy === user.uid;
 
   useEffect(() => {
-    const fetchFullCommunityData = async () => {
-      try {
-        const communityDocRef = doc(db, "communities", community.id);
-        const communitySnap = await getDoc(communityDocRef);
-        if (communitySnap.exists()) {
-          setCommunityData(communitySnap.data() as Community);
-        }
-      } catch (error) {
-        console.error("Error fetching full community data:", error);
-      }
-    };
+
+  const fetchFullCommunityData = async () => {
+  try {
+    const communityDocRef = doc(db, "communities", community.id);
+    const communitySnap = await getDoc(communityDocRef);
+    if (communitySnap.exists()) {
+      setCommunityData({
+        ...(communitySnap.data() as Community),
+        id: communitySnap.id
+      });
+    }
+  } catch (error: any) {
+    console.error("Error fetching full community data:", error);
+  }
+};
+
 
     fetchFullCommunityData();
     checkMembership();
@@ -71,7 +76,7 @@ const CommunityDetailScreen = () => {
         const joinedCommunities = userSnap.data().joinedCommunities || [];
         setIsMember(joinedCommunities.includes(community.id));
       }
-    } catch (error) {
+    } catch (error: any) { // ADDED :any
       console.error("Error checking membership:", error);
     }
   };
@@ -91,7 +96,7 @@ const CommunityDetailScreen = () => {
       })) as { id: string; name: string }[];
   
       setGroupChats(groups);
-    } catch (error: any) {
+    } catch (error: any) { // ALREADY HAD :any, just confirming
       if (error.code === "permission-denied") {
         console.warn("You do not have permission to access group chats.");
       } else {
@@ -125,19 +130,16 @@ const CommunityDetailScreen = () => {
       setIsMember(true);
       Alert.alert("Success", "You have joined the community!");
   
-    } catch (error) {
+    } catch (error: any) { // ADDED :any
       console.error("Error joining community:", error);
       Alert.alert("Error", "Failed to join the community. Please try again.");
     }
   };
 
-  // --- NEW: Handle Edit Community (remains the same as before) ---
   const handleEditCommunity = () => {
-    // Navigate to an EditCommunityScreen, passing the current community data
     navigation.navigate("EditCommunityScreen", { community: communityData });
   };
 
-  // --- NEW: Handle Delete Community (remains the same as before) ---
   const handleDeleteCommunity = async () => {
     if (!user || !isCreator) {
       Alert.alert("Permission Denied", "You are not authorized to delete this community.");
@@ -169,7 +171,7 @@ const CommunityDetailScreen = () => {
               Alert.alert("Success", `Community "${communityData.name}" deleted successfully.`);
               navigation.goBack(); 
 
-            } catch (error) {
+            } catch (error: any) { // ADDED :any
               console.error("Error deleting community:", error);
               Alert.alert("Error", "Failed to delete community. Please try again.");
             } finally {
@@ -187,7 +189,8 @@ const CommunityDetailScreen = () => {
     return (
       <View style={globalStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={styles.loadingText}>Loading community details...</Text>
+        {/* Make sure loadingText is defined in communityDetailScreen in appStyles.ts */}
+        <Text style={styles.loadingText}>Loading community details...</Text> 
       </View>
     );
   }
@@ -201,16 +204,15 @@ const CommunityDetailScreen = () => {
         </View>
       )}
 
-      <View style={styles.headerContainer}> {/* NEW: Header container for title and settings */}
+      <View style={styles.headerContainer}>
         <Text style={styles.header}>{communityData.name}</Text>
-        {isCreator && ( // Conditionally render settings icon
+        {isCreator && (
           <TouchableOpacity style={styles.settingsButton} onPress={handleEditCommunity}>
             <Ionicons name="settings-outline" size={24} style={styles.settingsIcon} />
           </TouchableOpacity>
         )}
       </View>
       
-      {/* Community Logo (display it below the header section) */}
       <Image
         source={communityData.logo ? { uri: communityData.logo } : DEFAULT_COMMUNITY_LOGO}
         style={styles.communityLogo}
@@ -218,7 +220,6 @@ const CommunityDetailScreen = () => {
 
       <Text style={styles.description}>{communityData.description || "No description available."}</Text>
 
-      {/* Join Button (Only if Not a Member and Not Creator) */}
       {!isMember && !isCreator && (
         <TouchableOpacity style={styles.joinButton} onPress={handleJoinCommunity}>
           <Text style={styles.joinButtonText}>Join Community</Text>
@@ -245,13 +246,20 @@ const CommunityDetailScreen = () => {
         <Text style={styles.noGroupsText}>No group chats available.</Text>
       )}
 
-      {/* Show Create Group Button Only if User is a Member */}
-      {isMember && (
-        <TouchableOpacity style={styles.createGroupButton}
-                  onPress={() => navigation.navigate("CreateGroupChatScreen", { communityId: community.id })}>
+      {(isMember || isCreator) && (
+        <TouchableOpacity
+          style={styles.createGroupButton}
+          onPress={() => {
+            console.log("NAVIGATING to CreateGroupChatScreen with communityId:", communityData.id);
+            navigation.navigate("CreateGroupChatScreen", {
+              communityId: communityData.id
+            });
+          }}
+        >
           <Text style={styles.createGroupButtonText}>+ Create Group Chat</Text>
         </TouchableOpacity>
       )}
+
     </ScrollView>
   );
 };
