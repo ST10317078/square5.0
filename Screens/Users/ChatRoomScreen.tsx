@@ -4,18 +4,19 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, ActivityIndicator, KeyboardAvoidingView, Platform, Alert, Image, Dimensions, Linking } from 'react-native';
 import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { doc, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, getDoc, updateDoc } from 'firebase/firestore';
-import { db, auth } from '../firebaseConfig';
-import { RootStackParamList } from '../types'; //
+import { db, auth } from '../../firebaseConfig';
+import { RootStackParamList } from '../../types'; 
 
 import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-import createStyles, { SPACING, FONT_SIZES } from './context/appStyles'; //
-import { useTheme } from './context/ThemeContext'; //
+import createStyles, { SPACING, FONT_SIZES } from '../context/appStyles'; 
+import { useTheme } from '../context/ThemeContext'; 
+import { Ionicons } from "@expo/vector-icons";
 
 type ChatRoomScreenRouteProp = RouteProp<RootStackParamList, 'ChatRoomScreen'>;
-type ChatRoomScreenNavigationProp = any; // You might want to define a more specific type here from StackNavigationProp<RootStackParamList>
+type ChatRoomScreenNavigationProp = any;
 
 interface Message {
   id: string;
@@ -29,13 +30,12 @@ interface Message {
   uploading?: boolean;
   uploadProgress?: number; // 0-100
   uploadError?: string;
-  tempId?: string; // Temporary ID for optimistic updates
+  tempId?: string; 
 }
 
-const AVATAR_PLACEHOLDER = require("../assets/avatar-placeholder.png");
+const AVATAR_PLACEHOLDER = require("../../assets/avatar-placeholder.png");
 
-// Ensure EMOJI_API_URL has a valid API key or remove if not using dynamic emojis
-const EMOJI_API_URL = 'https://emoji-api.com/emojis?access_key=YOUR_API_KEY'; // REPLACE 'YOUR_API_KEY' if using
+const EMOJI_API_URL = 'https://emoji-api.com/emojis?access_key=f4afea21bfcc54275a9e03d3daf1bb0bb82c19f3'; // REPLACE 'YOUR_API_KEY' if using
 
 const FALLBACK_EMOJIS = [
   '😀', '😂', '🤣', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😙',
@@ -511,14 +511,24 @@ const ChatRoomScreen = () => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? SPACING.xxlarge : 0}
     >
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>{"<"}</Text>
-        </TouchableOpacity>
+           <TouchableOpacity
+            onPress={() => navigation.goBack()} // Use navigation.goBack() for stack navigation
+            style={globalStyles.backButton || globalStyles.primaryButton} // Use specific style or a fallback
+          >
+            <Ionicons name="arrow-back" size={FONT_SIZES.xxlarge} color={colors.textPrimary} /> {/* Use Ionicons */}
+          </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('UserProfileScreen', { userId: recipientId })}
+        style={styles.profileButton}
+      >
         <Image
           source={recipientProfilePic ? { uri: recipientProfilePic } : AVATAR_PLACEHOLDER}
           style={styles.recipientProfilePic}
         />
         <Text style={styles.headerTitle}>{recipientUsername}</Text>
+      </TouchableOpacity>
+
       </View>
 
       <FlatList

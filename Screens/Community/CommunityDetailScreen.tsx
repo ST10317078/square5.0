@@ -11,16 +11,16 @@ import {
 } from "react-native";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList, Community } from "../types"; //
-import { db, auth, storage } from "../firebaseConfig";
+import { RootStackParamList, Community } from "../../types"; 
+import { db, auth, storage } from "../../firebaseConfig";
 import { doc, getDoc, updateDoc, setDoc, arrayUnion, collection, getDocs, deleteDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import { Ionicons } from "@expo/vector-icons"; //
+import { Ionicons } from "@expo/vector-icons"; 
 
-import { useTheme } from './context/ThemeContext'; //
-import createStyles, { SPACING, BOTTOM_TAB_BAR_HEIGHT } from './context/appStyles'; //
+import { useTheme } from '../context/ThemeContext'; 
+import createStyles, { SPACING, BOTTOM_TAB_BAR_HEIGHT, FONT_SIZES } from '../context/appStyles'; 
 
-const DEFAULT_COMMUNITY_LOGO = require("../assets/community-placeholder.png");
+const DEFAULT_COMMUNITY_LOGO = require("../../assets/community-placeholder.png");
 
 type CommunityDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, "CommunityDetailScreen">;
 type CommunityDetailScreenRouteProp = RouteProp<RootStackParamList, "CommunityDetailScreen">;
@@ -39,7 +39,7 @@ const CommunityDetailScreen = () => {
   const user = auth.currentUser;
 
   const { colors } = useTheme();
-  const styles = createStyles(colors).communityDetailScreen; // THIS LINE IS CORRECT
+  const styles = createStyles(colors).communityDetailScreen; 
   const globalStyles = createStyles(colors).global;
 
   const isCreator = user && communityData.createdBy === user.uid;
@@ -76,7 +76,7 @@ const CommunityDetailScreen = () => {
         const joinedCommunities = userSnap.data().joinedCommunities || [];
         setIsMember(joinedCommunities.includes(community.id));
       }
-    } catch (error: any) { // ADDED :any
+    } catch (error: any) { 
       console.error("Error checking membership:", error);
     }
   };
@@ -96,7 +96,7 @@ const CommunityDetailScreen = () => {
       })) as { id: string; name: string }[];
   
       setGroupChats(groups);
-    } catch (error: any) { // ALREADY HAD :any, just confirming
+    } catch (error: any) { 
       if (error.code === "permission-denied") {
         console.warn("You do not have permission to access group chats.");
       } else {
@@ -130,7 +130,7 @@ const CommunityDetailScreen = () => {
       setIsMember(true);
       Alert.alert("Success", "You have joined the community!");
   
-    } catch (error: any) { // ADDED :any
+    } catch (error: any) { 
       console.error("Error joining community:", error);
       Alert.alert("Error", "Failed to join the community. Please try again.");
     }
@@ -171,7 +171,7 @@ const CommunityDetailScreen = () => {
               Alert.alert("Success", `Community "${communityData.name}" deleted successfully.`);
               navigation.goBack(); 
 
-            } catch (error: any) { // ADDED :any
+            } catch (error: any) { 
               console.error("Error deleting community:", error);
               Alert.alert("Error", "Failed to delete community. Please try again.");
             } finally {
@@ -189,7 +189,6 @@ const CommunityDetailScreen = () => {
     return (
       <View style={globalStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
-        {/* Make sure loadingText is defined in communityDetailScreen in appStyles.ts */}
         <Text style={styles.loadingText}>Loading community details...</Text> 
       </View>
     );
@@ -205,6 +204,12 @@ const CommunityDetailScreen = () => {
       )}
 
       <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={globalStyles.backButton}
+        >
+          <Ionicons name="arrow-back" size={FONT_SIZES.xxlarge} color={colors.textPrimary} />
+        </TouchableOpacity>         
         <Text style={styles.header}>{communityData.name}</Text>
         {isCreator && (
           <TouchableOpacity style={styles.settingsButton} onPress={handleEditCommunity}>

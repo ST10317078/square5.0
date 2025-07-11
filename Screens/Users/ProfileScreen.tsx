@@ -9,24 +9,32 @@ import {
   ActivityIndicator,
   SafeAreaView,
   ScrollView,
-  StyleProp,
-  TextStyle
+  // StyleProp, TextStyle // Removed if not directly needed for explicit casting
 } from "react-native";
-import * as ImagePicker from "expo-image-picker"; // KEEP THIS IMPORT AS IS
+import * as ImagePicker from "expo-image-picker";
 
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db, storage } from "../firebaseConfig";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useTheme } from './context/ThemeContext';
-import createStyles from './context/appStyles';
+import { db, storage } from "../../firebaseConfig";
+import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
+import { useTheme } from '../context/ThemeContext';
+import createStyles, { SPACING, FONT_SIZES } from '../context/appStyles'; 
+import { useNavigation } from "@react-navigation/native"; 
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../types"; 
+import { Ionicons } from '@expo/vector-icons'; 
 
-const DEFAULT_AVATAR = require("../assets/avatar-placeholder.png");
+const DEFAULT_AVATAR = require("../../assets/avatar-placeholder.png");
+
+// Define navigation prop type specifically for ProfileScreen
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, "ProfileScreen">;
 
 const ProfileScreen = () => {
   const auth = getAuth();
   const user = auth.currentUser;
   const { colors, isThemeLoading } = useTheme();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
+
 
   const styles = createStyles(colors).profileScreen;
   const globalStyles = createStyles(colors).global;
@@ -34,20 +42,21 @@ const ProfileScreen = () => {
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [socialLink, setSocialLink] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
 
-  const [isProfileDataLoading, setIsProfileDataLoading] = useState(true);
+  const [isProfileDataLoading, setIsProfileDataLoading] = useState(true); 
 
   useEffect(() => {
     if (user) {
       fetchUserProfile();
     } else {
       setIsProfileDataLoading(false);
+       navigation.navigate("AuthScreen");
     }
-  }, [user]);
+  }, [user, navigation]); 
 
   const fetchUserProfile = async () => {
-    if (!user) return;
+    if (!user) return; 
     setIsProfileDataLoading(true);
     try {
       const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -57,15 +66,18 @@ const ProfileScreen = () => {
         setAboutMe(data.aboutMe || "");
         setProfilePic(data.profilePic || null);
       }
-    } catch (error) {
+    } catch (error: any) { // Type error
       console.error("Error fetching profile:", error);
-      Alert.alert("Error", "Failed to load profile data.");
+      Alert.alert("Error", `Failed to load profile data: ${error.message || "Please try again."}`);
     } finally {
       setIsProfileDataLoading(false);
     }
   };
 
   const handleImagePick = async () => {
+    // Check loading/isPickingImage to prevent multiple clicks
+    if (loading) return; 
+    
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       Alert.alert('Permission required', 'Please grant media library permissions to choose a profile picture.');
@@ -73,13 +85,13 @@ const ProfileScreen = () => {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // <--- CHANGE BACK TO THIS LINE
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.7,
     });
 
-    if (!result.canceled && result.assets.length > 0) {
+    if (!result.canceled && result.assets && result.assets.length > 0) {
       uploadProfilePicture(result.assets[0].uri);
     }
   };
@@ -104,9 +116,9 @@ const ProfileScreen = () => {
         { merge: true }
       );
       Alert.alert("Success", "Profile picture updated!");
-    } catch (error) {
+    } catch (error: any) { 
       console.error("Error uploading profile picture:", error);
-      Alert.alert("Upload failed", "Could not upload profile picture. Please try again.");
+      Alert.alert("Upload failed", `Could not upload profile picture: ${error.message || "Please try again."}`);
     } finally {
       setLoading(false);
     }
@@ -121,38 +133,60 @@ const ProfileScreen = () => {
     try {
       await setDoc(
         doc(db, "users", user.uid),
-        { socialLink, aboutMe },
+        { socialLink: socialLink.trim(), aboutMe: aboutMe.trim() }, 
         { merge: true }
       );
       Alert.alert("Success", "Profile updated!");
-    } catch (error) {
+    } catch (error: any) { 
       console.error("Error updating profile:", error);
-      Alert.alert("Error", "Failed to update profile. Please try again.");
+      Alert.alert("Error", `Failed to update profile: ${error.message || "Please try again."}`);
     } finally {
       setLoading(false);
     }
   };
 
+  // Conditional render for loading states (theme, profile data)
   if (isThemeLoading || isProfileDataLoading) {
     return (
       <View style={globalStyles.centeredContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={globalStyles.loadingOverlayText}>Loading profile...</Text>
+        <Text style={globalStyles.loadingOverlayText}>
+          {isThemeLoading ? "Loading theme..." : "Loading profile data..."}
+        </Text>
+      </View>
+    );
+  }
+  // Conditional render if user is not logged in after initial loading
+  if (!user) {
+    return (
+      <View style={globalStyles.centeredContainer}>
+        <Text style={globalStyles.errorText}>You must be logged in to view your profile.</Text>
+        {/* Added a button to navigate to AuthScreen for convenience */}
+        <TouchableOpacity onPress={() => navigation.navigate("AuthScreen")} style={globalStyles.primaryButton}>
+            <Text style={globalStyles.primaryButtonText}>Go to Login</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
+
   return (
     <SafeAreaView style={globalStyles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {loading && (
-          <View style={globalStyles.loadingOverlay}>
+        {loading && ( 
+          <View style={globalStyles.loadingOverlay}> 
             <ActivityIndicator size="large" color={colors.primary} />
-            <Text style={globalStyles.loadingOverlayText}>Saving...</Text>
+            <Text style={globalStyles.loadingOverlayText}>Saving...</Text> 
           </View>
         )}
 
         <View style={styles.headerContainer}>
+           <TouchableOpacity
+            onPress={() => navigation.goBack()} 
+            style={globalStyles.backButton || globalStyles.primaryButton} 
+          >
+            <Ionicons name="arrow-back" size={FONT_SIZES.xxlarge} color={colors.textPrimary} />
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>Edit Profile</Text>
         </View>
 
@@ -171,7 +205,7 @@ const ProfileScreen = () => {
         <View style={styles.inputSection}>
           <Text style={styles.label}>Social Link (optional)</Text>
           <TextInput
-            style={styles.textInput as StyleProp<TextStyle>}
+            style={styles.textInput} // Removed StyleProp cast
             placeholder="https://your-social-profile"
             placeholderTextColor={colors.placeholderText as string}
             value={socialLink}
@@ -185,7 +219,7 @@ const ProfileScreen = () => {
         <View style={styles.inputSection}>
           <Text style={styles.label}>About Me</Text>
           <TextInput
-            style={[styles.textInput, styles.aboutMeInput] as StyleProp<TextStyle>}
+            style={[styles.textInput, styles.aboutMeInput]} // Removed StyleProp cast
             placeholder="Write something about yourself..."
             placeholderTextColor={colors.placeholderText as string}
             value={aboutMe}
@@ -197,9 +231,7 @@ const ProfileScreen = () => {
         </View>
 
         <TouchableOpacity onPress={handleSave} style={styles.saveButton} disabled={loading}>
-          <Text style={styles.saveButtonText}>
-            Save Profile
-          </Text>
+          {loading ? <ActivityIndicator color={colors.activeFilterText} /> : <Text style={styles.saveButtonText}>Save Profile</Text>}
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

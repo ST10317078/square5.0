@@ -1,5 +1,3 @@
-// Screens/userProfileScreen.tsx
-
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -14,12 +12,13 @@ import {
 } from "react-native";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db, auth } from "../firebaseConfig";
-import { RootStackParamList } from "../types";
+import { db, auth } from "../../firebaseConfig";
+import { RootStackParamList } from "../../types";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import createStyles, { SPACING } from './context/appStyles';
-import { useTheme } from './context/ThemeContext'; // Corrected path based on your latest ThemeContext
+import createStyles, { FONT_SIZES, SPACING } from '../context/appStyles';
+import { useTheme } from '../context/ThemeContext';
+import { Ionicons } from '@expo/vector-icons'; 
 
 type UserProfileRouteProp = RouteProp<RootStackParamList, "UserProfileScreen">;
 type NavigationProp = StackNavigationProp<RootStackParamList, "UserProfileScreen">;
@@ -31,7 +30,7 @@ interface UserData {
   socialLink?: string;
 }
 
-const AVATAR_PLACEHOLDER = require("../assets/avatar-placeholder.png");
+const AVATAR_PLACEHOLDER = require("../../assets/avatar-placeholder.png");
 
 const renderContentOrPlaceholder = (content?: string) => {
   return content?.trim() ? content : "Nothing to show here";
@@ -114,7 +113,7 @@ const UserProfileScreen = () => {
         return;
       }
       console.log("DEBUG: Chat ID parts (UID1, UID2):", parts[0], parts[1]);
-      // DEBUG LOGS END
+      
 
       const chatRef = doc(db, "chats", chatId);
       const chatDoc = await getDoc(chatRef);
@@ -134,7 +133,6 @@ const UserProfileScreen = () => {
 
     } catch (error: any) {
       console.error("Error starting chat:", error);
-      // More detailed alert for debugging
       Alert.alert(`Failed to start chat: ${error.message || "Please try again."}`, "Check console for more details.");
     } finally {
       setChatLoading(false);
@@ -179,17 +177,28 @@ const UserProfileScreen = () => {
   }
 
   return (
+    
     <ScrollView
       contentContainerStyle={styles.scrollViewContent}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={fetchUserData} colors={[colors.primary]} />
       }
     >
+      <View style={globalStyles.headerContainer}>
+           <TouchableOpacity
+            onPress={() => navigation.goBack()} 
+            style={globalStyles.backButton || globalStyles.primaryButton} 
+          >
+            <Ionicons name="arrow-back" size={FONT_SIZES.xxlarge} color={colors.textPrimary} /> 
+          </TouchableOpacity>
+          <Text style={globalStyles.headerTitle}>Edit Profile</Text>
+        </View>
+      <View style={styles.profilePicContainer}>  
       <Image
         source={user.profilePic ? { uri: user.profilePic } : AVATAR_PLACEHOLDER}
-        style={styles.profileImage}
+        style={[styles.profilePic, { borderColor: colors.primary }]}
       />
-
+    </View>
       <Text style={styles.username}>{user.username}</Text>
 
       <View style={styles.sectionContainer}>

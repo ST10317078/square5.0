@@ -1,56 +1,110 @@
 import { Timestamp } from 'firebase/firestore';
 
-
+// --- Root Stack Navigation Parameters ---
 export type RootStackParamList = {
     AuthScreen: undefined;
-    CommunityScreen: undefined; // ✅ Add this
+    CommunityScreen: undefined;
     CommunityDetailScreen: { community: Community };
     CreateCommunityScreen: undefined;
-    GroupChatScreen: { groupId: string; groupName: string; communityId: string }; // ✅ Add this
-    ChatRoomScreen: { chatId: string; recipientId: string }; // <--- ADD recipientId here
-    Community: undefined;
-    VouchersScreen: undefined;
-    ProfileScreen: undefined;
+    GroupChatScreen: { groupId: string; groupName: string; communityId: string };
+    ChatRoomScreen: { chatId: string; recipientId: string };
     UserProfileScreen: { userId: string };
-    ChatScreen: undefined; // ✅ Ensure this exists
-    EditCommunityScreen: { community: Community }
+    ChatScreen: undefined;
+    EditCommunityScreen: { community: Community };
     CreateGroupChatScreen: { communityId: string };
     GroupDetailsScreen: { groupId: string; groupName: string; communityId: string };
 
-    Auth: undefined; // For the AuthScreen when not logged in
-    BottomTabs: undefined; // For the BottomTabsNavigator
-  
-  };
-  
-  export type Community = {
-    id: string;
-    name: string;
-    description?: string;
-    createdBy: string;
-    logo?: string;
-    createdAt: Date; 
-  };
+    // NEW SCREENS FOR BUSINESSES
+    BusinessesScreen: undefined;
+    CreateBusinessScreen: { catalog?: CatalogItem[] }; // Allows passing initial catalog
+    CatalogEditorScreen: { businessId?: string; catalog: CatalogItem[] }; // Editor for catalog items (can be used for new or existing business)
+    AddCatalogScreen: { catalog: CatalogItem[] }; // Specific screen to add new item to catalog in bulk/editor mode
+    BusinessChatScreen: { businessId: string; businessName: string; coverImageUrl?: string | null }; // Corrected: accepts businessName and coverImageUrl
+   
+    MyBusinessScreen: {
+    businessId: string;
+    businessName: string;
+    coverImageUrl: string | null;
+    description: string;
+    location: string;
+    type: string;
+    catalog?: CatalogItem[];
 
-  export type UserProfile = {
+  };
+EditBusinessScreen: {
+  businessId: string;
+  businessName: string;
+  coverImageUrl?: string | null;
+  description: string;
+  location: string;
+  type: string;
+  catalog?: CatalogItem[];
+};
+
+    // BOTTOM TABS (used in App.tsx as a screen name)
+    BottomTabs: undefined;
+    Auth: undefined;
+};
+
+
+export type Community = {
   id: string;
+  name: string;
+  description?: string;
+  createdBy: string;
+  logo?: string;
+  createdAt: Date | Timestamp; // Allow Timestamp from Firestore
+};
+
+export type UserProfile = {
+  id: string; // User's Firestore document ID (UID)
   username: string;
   profilePic?: string;
-  description?: string;
+  aboutMe?: string;
+  socialLink?: string; // Optional social media link
+  uid: string; // Firebase Authentication UID (should match id)
 };
-  
-export interface Message { // Changed from type to interface and exported
-  id: string;
-  text?: string;
-  senderId: string;
-  sender: string; // Display name of the sender
-  timestamp: Date | Timestamp; // Use the imported Timestamp
+
+// Message interface for both ChatRoomScreen and GroupChatScreen
+export interface Message { // Changed to interface for consistency and extensibility
+  id: string; // Firestore document ID for the message
+  text?: string; // Message text
+  senderId: string; // UID of the sender
+  sender: string; // Display name of the sender (e.g., username)
+  timestamp: Date | Timestamp; // When the message was sent (can be Date for optimistic, Timestamp from Firestore)
   senderProfilePic?: string; // URL to sender's profile picture
-  mediaUrl?: string; // URL for image/video/file
+  mediaUrl?: string; // URL for image/video/file in Firebase Storage
   mediaType?: 'image' | 'video' | 'file'; // Type of media
-  fileName?: string; // For file messages
-  fileSize?: number; // For file messages
-  uploading?: boolean; // For optimistic UI: true if currently uploading
+  fileName?: string; // Original file name (for file uploads)
+  fileSize?: number; // Size of the file in bytes
+  // Client-side only properties for upload status (CRITICAL FOR OPTIMISTIC UI):
+  uploading?: boolean; // true if media is still uploading
   uploadProgress?: number; // 0-100%
-  uploadError?: string; // Error message if upload fails
-  tempId?: string; // Temporary ID for optimistic updates before Firestore provides real ID
+  uploadError?: string; // error message if upload failed
+  tempId?: string; // Temporary ID for optimistic updates
+}
+
+// NEW: Business Data Models
+export interface CatalogItem {
+  tempId?: string; // Client-side only: Temporary ID for items before saving to Firestore
+  name: string;
+  price: number; // Store as number for calculations
+  description?: string;
+  imageUrl?: string; // URL to the item's image in Firebase Storage
+  uploading?: boolean;
+  uploadProgress?: number; // 0-100
+  uploadError?: string;
+}
+
+export interface Business {
+  id: string; // Firestore Document ID for the business
+  name: string;
+  description?: string;
+  type: string; // e.g., "Restaurant", "Salon", "Retail"
+  location: string;
+  imageUrl?: string; // URL to the business's cover image in Firebase Storage
+  catalog?: CatalogItem[]; // Array of catalog items
+  createdBy: string; // UID of the user who created it
+  createdAt: Timestamp; // Firestore timestamp when the business was created
+  ownerId?: string; // NEW: Added ownerId as seen in BusinessesScreen data structure
 }

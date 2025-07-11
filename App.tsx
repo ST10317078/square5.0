@@ -1,26 +1,82 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+
 import { AuthProvider, useAuth } from "./AuthContext";
+import { ThemeProvider, useTheme } from './Screens/context/ThemeContext';
 
 import AuthScreen from "./Screens/AuthScreen";
-import CommunityScreen from "./Screens/CommunityScreen";
-import CommunityDetailScreen from "./Screens/CommunityDetailScreen";
-import CreateCommunityScreen from "./Screens/CreateCommunityScreen";
-import GroupChatScreen from "./Screens/GroupChatScreen";
-import VouchersScreen from "./Screens/VouchersScreen";
-import ProfileScreen from "./Screens/ProfileScreen";
-import ChatScreen from "./Screens/ChatScreen";
-import UserProfileScreen from "./Screens/userProfileScreen";
-import EditCommunityScreen from "./Screens/EditCommunityScreen";
-import ChatRoomScreen from "./Screens/ChatRoomScreen";
-import CreateGroupChatScreen from "./Screens/CreateGroupChatScreen";
-import GroupDetailsScreen from "./Screens/GroupDetailsScreen";
+import CommunityScreen from "./Screens/Community/CommunityScreen";
+import CommunityDetailScreen from "./Screens/Community/CommunityDetailScreen";
+import CreateCommunityScreen from "./Screens/Community/CreateCommunityScreen";
+import GroupChatScreen from "./Screens/Community/Group/GroupChatScreen";
+import ProfileScreen from "./Screens/Users/ProfileScreen";
+import UserProfileScreen from "./Screens/Users/userProfileScreen";
+import EditCommunityScreen from "./Screens/Community/EditCommunityScreen";
+import ChatRoomScreen from "./Screens/Users/ChatRoomScreen";
+import GroupDetailsScreen from "./Screens/Community/Group/GroupDetailsScreen";
+import WalletScreen from "./Screens/Wallet/WalletScreen";
+import UserScreen from "./Screens/Users/UsersScreen";
+import BusinessesScreen from "./Screens/Businesses/BusinessesScreen";
+import CreateBusinessScreen from "./Screens/Businesses/CreateBusinessScreen";
+import AddCatalogScreen from "./Screens/Businesses/AddCatalogScreen";
+import EditBusinessScreen from "./Screens/Businesses/EditBusinessScreen";
+import CatalogEditorScreen from "./Screens/Businesses/CatalogEditorScreen";
+import BusinessChatScreen from "./Screens/Businesses/BusinessChatScreen";
+import MyBusinessScreen from './Screens/Businesses/MyBusinessScreen';
 
-import { ThemeProvider } from './Screens/context/ThemeContext';
-import AppLayout from "./AppLayout";  
 
-const Stack = createStackNavigator();
+const RootStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const TabsNavigator = () => {
+  const { colors } = useTheme();
+
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textSecondary,
+        tabBarStyle: {
+          backgroundColor: colors.cardBackground,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          position: "absolute",
+          bottom: 0,
+          height: 65,
+          elevation: 10,
+          shadowColor: "#000",
+          shadowOpacity: 0.1,
+          shadowRadius: 10,
+          shadowOffset: { width: 0, height: -2 },
+        },
+
+        tabBarIcon: ({ color, size }) => {
+          let iconName: string = "";
+          if (route.name === "CommunityScreen") iconName = "people-outline";
+          else if (route.name === "BusinessesScreen") iconName = "storefront-outline";
+          else if (route.name === "WalletScreen") iconName = "wallet-outline";
+          else if (route.name === "ProfileScreen") iconName = "person-outline";
+          else if (route.name === "UserScreen") iconName = "person-outline";
+return <Ionicons name={iconName as any} size={size} color={color} />;
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginBottom: 4
+        },
+      })}
+    >
+      <Tab.Screen name="CommunityScreen" component={CommunityScreen} />
+      <Tab.Screen name="UserScreen" component={UserScreen} />
+      <Tab.Screen name="BusinessesScreen" component={BusinessesScreen} />
+      <Tab.Screen name="WalletScreen" component={WalletScreen} />
+      <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+    </Tab.Navigator>
+  );
+};
 
 const MainNavigator = () => {
   const { user } = useAuth();
@@ -28,109 +84,32 @@ const MainNavigator = () => {
   return (
     <ThemeProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <RootStack.Navigator screenOptions={{ headerShown: false }}>
           {user ? (
             <>
-              <Stack.Screen name="CommunityScreen">
-                {() => (
-                  <AppLayout>
-                    <CommunityScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
+              {/* Tabs Navigator with Bottom Bar */}
+              <RootStack.Screen name="Tabs" component={TabsNavigator} />
 
-              <Stack.Screen name="CommunityDetailScreen">
-                {() => (
-                  <AppLayout>
-                    <CommunityDetailScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="CreateCommunityScreen">
-                {() => (
-                  <AppLayout>
-                    <CreateCommunityScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="GroupChatScreen">
-                {() => (
-                  <AppLayout>
-                    <GroupChatScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="VouchersScreen">
-                {() => (
-                  <AppLayout>
-                    <VouchersScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="ProfileScreen">
-                {() => (
-                  <AppLayout>
-                    <ProfileScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="ChatScreen">
-                {() => (
-                  <AppLayout>
-                    <ChatScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="UserProfileScreen">
-                {() => (
-                  <AppLayout>
-                    <UserProfileScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="EditCommunityScreen">
-                {() => (
-                  <AppLayout>
-                    <EditCommunityScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="ChatRoomScreen">
-                {() => (
-                  <AppLayout>
-                    <ChatRoomScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="CreateGroupChatScreen">
-                {() => (
-                  <AppLayout>
-                    <CreateGroupChatScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
-
-              <Stack.Screen name="GroupDetailsScreen">
-                {() => (
-                  <AppLayout>
-                    <GroupDetailsScreen />
-                  </AppLayout>
-                )}
-              </Stack.Screen>
+              {/* Screens without Bottom Bar */}
+              <RootStack.Screen name="GroupChatScreen" component={GroupChatScreen} />
+              <RootStack.Screen name="ChatRoomScreen" component={ChatRoomScreen} />
+              <RootStack.Screen name="CommunityDetailScreen" component={CommunityDetailScreen} />
+              <RootStack.Screen name="EditCommunityScreen" component={EditCommunityScreen} />
+              <RootStack.Screen name="UserProfileScreen" component={UserProfileScreen} />
+              <RootStack.Screen name="GroupDetailsScreen" component={GroupDetailsScreen} />
+              <RootStack.Screen name="CreateCommunityScreen" component={CreateCommunityScreen} />
+              <RootStack.Screen name="CreateBusinessScreen" component={CreateBusinessScreen} />
+              <RootStack.Screen name="AddCatalogScreen" component={AddCatalogScreen} />
+              <RootStack.Screen name="EditBusinessScreen" component={EditBusinessScreen} />
+              <RootStack.Screen name="CatalogEditorScreen" component={CatalogEditorScreen} />
+              <RootStack.Screen name="BusinessChatScreen" component={BusinessChatScreen} />
+              <RootStack.Screen name="MyBusinessScreen" component={MyBusinessScreen} />
+      
             </>
           ) : (
-            <Stack.Screen name="AuthScreen" component={AuthScreen} />
+            <RootStack.Screen name="AuthScreen" component={AuthScreen} />
           )}
-        </Stack.Navigator>
+        </RootStack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
   );

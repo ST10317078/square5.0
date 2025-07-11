@@ -16,8 +16,8 @@ import {
 } from "react-native";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList, Message } from "../types"; // Import Message from types.ts
-import { db, auth } from "../firebaseConfig";
+import { RootStackParamList, Message } from "../../../types"; // Import Message from types.ts
+import { db, auth } from "../../../firebaseConfig";
 import {
   collection,
   addDoc,
@@ -36,13 +36,13 @@ import * as ImagePicker from 'expo-image-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-import { useTheme } from './context/ThemeContext';
-import createStyles, { SPACING, FONT_SIZES } from './context/appStyles';
+import { useTheme } from '../../context/ThemeContext';
+import createStyles, { SPACING, FONT_SIZES } from '../../context/appStyles';
 import { Ionicons } from '@expo/vector-icons';
 
-const AVATAR_PLACEHOLDER = require("../assets/avatar-placeholder.png");
+const AVATAR_PLACEHOLDER = require("../../../assets/avatar-placeholder.png");
 
-const EMOJI_API_URL = 'https://emoji-api.com/emojis?access_key=YOUR_API_KEY';
+const EMOJI_API_URL = 'https://emoji-api.com/emojis?access_key=f4afea21bfcc54275a9e03d3daf1bb0bb82c19f3';
 const FALLBACK_EMOJIS = [
   '😀', '😂', '🤣', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😙',
   '😚', '😋', '😛', '😜', '🤪', '😝', '🤤', '😴', '😷', '🤒',
@@ -82,6 +82,7 @@ const GroupChatScreen = () => {
   const styles = createStyles(colors).groupChatScreen;
   const globalStyles = createStyles(colors).global;
   const storage = getStorage();
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const currentUserId = auth.currentUser?.uid;
 
@@ -434,7 +435,13 @@ const GroupChatScreen = () => {
   const handleSendText = () => {
     if (newMessage.trim() === '') return;
     sendMessage({ text: newMessage.trim() });
+
   };
+
+const handleAddEmoji = (emoji: string) => {
+  setNewMessage((prev) => prev + emoji);
+  setShowEmojiPicker(false);
+};  
 
   const handleJoinGroup = async () => { // Correctly defined function
     if (!currentUserId) return;
@@ -550,6 +557,8 @@ const GroupChatScreen = () => {
     );
   }
 
+
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
@@ -616,6 +625,21 @@ const GroupChatScreen = () => {
                 </View>
               )}
 
+              {showEmojiPicker && (
+                <View style={styles.emojiPickerContainer}>
+                  <ScrollView contentContainerStyle={styles.emojiPickerScroll}>
+                    {FALLBACK_EMOJIS.map((emoji, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => handleAddEmoji(emoji)}
+                        style={styles.emojiItem}
+                      >
+                        <Text style={styles.emojiText}>{emoji}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
               {isUploadingMedia ? (
                 <View style={styles.mediaUploadIndicator}>
                   <ActivityIndicator size="small" color={colors.primary} />
@@ -625,6 +649,12 @@ const GroupChatScreen = () => {
                 <>
                   <TouchableOpacity onPress={() => setShowAttachmentOptions(!showAttachmentOptions)} style={styles.attachmentButton}>
                     <Ionicons name="add-circle-outline" size={FONT_SIZES.xxlarge} color={colors.primary} />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => setShowEmojiPicker(!showEmojiPicker)}
+                    style={styles.emojiButton}
+                  >
+                    <Ionicons name="happy-outline" size={FONT_SIZES.xxlarge} color={colors.primary} />
                   </TouchableOpacity>
 
                   <TextInput

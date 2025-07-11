@@ -35,9 +35,28 @@ const createStyles = (colors: ThemeColors) => {
         alignItems: 'center',
         backgroundColor: colors.background,
       },
+      backButton: {
+        padding: SPACING.xsmall,
+        marginRight: SPACING.medium,
+      },
       safeArea: {
         flex: 1,
         backgroundColor: colors.background,
+      },
+    headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: SPACING.medium,
+    paddingHorizontal: SPACING.medium,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    backgroundColor: colors.background,
+    marginBottom: SPACING.small,
+      },
+      headerTitle: {
+        fontSize: FONT_SIZES.heading1,
+        fontWeight: "bold",
+        color: colors.text,
       },
       primaryButton: {
         backgroundColor: colors.primary,
@@ -101,6 +120,10 @@ const createStyles = (colors: ThemeColors) => {
     padding: SPACING.large,
     backgroundColor: colors.background,
   },
+        backButton: {
+        padding: SPACING.xsmall,
+        marginRight: SPACING.medium,
+      },
   title: {
     fontSize: FONT_SIZES.heading2,
     color: colors.textPrimary,
@@ -143,6 +166,72 @@ buttonText: {
   fontSize: FONT_SIZES.medium,
   fontWeight: '600',
 },
+}),
+
+editCommunityScreen: StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+    padding: SPACING.large,
+    backgroundColor: colors.background,
+  },
+       backButton: {
+        padding: SPACING.xsmall,
+        marginRight: SPACING.medium,
+      },
+  header: {
+    fontSize: FONT_SIZES.heading2,
+    color: colors.textPrimary,
+    fontWeight: 'bold',
+    marginBottom: SPACING.large,
+    textAlign: 'center',
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: SPACING.large,
+  },
+  logoImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    marginBottom: SPACING.small,
+  },
+  addLogoText: {
+    color: colors.primary,
+    fontSize: FONT_SIZES.medium,
+  },
+  input: {
+    backgroundColor: colors.cardBackground,
+    color: colors.textPrimary,
+    borderRadius: 8,
+    padding: SPACING.medium,
+    marginBottom: SPACING.medium,
+  },
+  textArea: {
+    height: 100,
+    textAlignVertical: 'top',
+  },
+  saveButton: {
+    backgroundColor: colors.primary,
+    borderRadius: 8,
+    paddingVertical: SPACING.medium,
+    alignItems: 'center',
+    marginTop: SPACING.large,
+  },
+  saveButtonText: {
+    color: colors.buttonText,
+    fontSize: FONT_SIZES.medium,
+    fontWeight: '600',
+  },
+  loadingOverlayScreen: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: colors.background,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingOverlayText: {
+    marginTop: SPACING.medium,
+    color: colors.textPrimary,
+  },
 }),
 
 communityDetailScreen: StyleSheet.create({
@@ -320,6 +409,7 @@ communityDetailScreen: StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
       },
+
       themeToggleText: {
         fontSize: FONT_SIZES.medium,
         marginRight: SPACING.small,
@@ -532,11 +622,11 @@ communityDetailScreen: StyleSheet.create({
         bottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large,
         backgroundColor: colors.primary,
         borderRadius: 30,
-        elevation: 20,
+        elevation: 12,
         shadowColor: colors.shadowColor,
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
         zIndex: 999,
       },
       fabText: {
@@ -566,6 +656,606 @@ communityDetailScreen: StyleSheet.create({
         paddingHorizontal: SPACING.medium,
       },
     }),
+
+createBusinessScreen: StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+
+scrollContent: {
+  flexGrow: 1,
+  justifyContent: 'flex-start',
+  paddingHorizontal: 16,
+  paddingBottom: 32,
+  paddingTop: 16,
+},
+
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold' as const,
+    color: colors.textPrimary,
+    marginBottom: 16,
+  },
+  subHeader: {
+    fontSize: 20,
+    fontWeight: '600' as const,
+    color: colors.textPrimary,
+    marginBottom: 12,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: '500' as const,
+    color: colors.textPrimary,
+    marginBottom: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderRadius: 8,
+    padding: 12,
+    color: colors.textPrimary,
+    backgroundColor: colors.cardBackground,
+    marginBottom: 16,
+  },
+    deleteButton: {
+    backgroundColor: colors.error,
+    borderRadius: 8,
+    paddingVertical: SPACING.medium,
+    alignItems: 'center',
+    marginTop: SPACING.medium,
+  },
+  deleteButtonText: {
+    color: colors.activeFilterText,
+    fontSize: FONT_SIZES.medium,
+    fontWeight: '600',
+  },
+  textArea: {
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderRadius: 8,
+    padding: 12,
+    color: colors.textPrimary,
+    backgroundColor: colors.cardBackground,
+    height: 100,
+    textAlignVertical: 'top' as const,
+    marginBottom: 16,
+  },
+picker: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+},
+  pickerStyles:{
+    width:'70%',
+    backgroundColor:'gray',
+    color:'white'
+  },
+
+  imagePicker: {
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    backgroundColor: colors.surface,
+    marginBottom: 16,
+  },
+businessPicker: {
+  borderWidth: 1,
+  borderColor: colors.borderColor,
+  borderRadius: 8,
+  paddingHorizontal: 12,
+  backgroundColor: colors.cardBackground,
+},
+businessPickerDropdown: {
+  borderWidth: 1,
+  borderColor: colors.borderColor,
+  borderRadius: 8,
+  backgroundColor: colors.surface,
+},
+  imagePickerButton: {
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    backgroundColor: colors.surface,
+    marginBottom: 16,
+  },
+  imagePreview: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  sectionHeader: {
+    fontSize: 20,
+    fontWeight: 'bold' as const,
+    color: colors.textPrimary,
+    marginTop: 24,
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold' as const,
+    color: colors.textPrimary,
+    marginTop: 24,
+    marginBottom: 12,
+  },
+  catalogItem: {
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+  },
+  catalogItemHeader: {
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    marginBottom: 8,
+  },
+  catalogImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  catalogInfo: {
+    flex: 1,
+  },
+  catalogItemImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  catalogItemTextContainer: {
+    flex: 1,
+  },
+  catalogItemName: {
+    fontSize: 16,
+    fontWeight: 'bold' as const,
+    color: colors.textPrimary,
+  },
+  catalogName: {
+    fontSize: 16,
+    fontWeight: 'bold' as const,
+    color: colors.textPrimary,
+  },
+  catalogItemPrice: {
+    fontSize: 14,
+    color: colors.secondaryText,
+  },
+  catalogItemDescription: {
+    fontSize: 14,
+    color: colors.secondaryText,
+    marginTop: 4,
+  },
+  catalogDescription: {
+    fontSize: 14,
+    color: colors.secondaryText,
+    marginTop: 4,
+  },
+  addButton: {
+    marginTop: 16,
+    backgroundColor: colors.primary,
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center' as const,
+  },
+  addButtonText: {
+    color: colors.activeFilterText,
+    fontWeight: 'bold' as const,
+    fontSize: 16,
+  },
+  saveButton: {
+    marginTop: 24,
+    backgroundColor: colors.accent,
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center' as const,
+  },
+  saveButtonText: {
+    color: colors.activeFilterText,
+    fontWeight: 'bold' as const,
+    fontSize: 18,
+  },
+  submitButton: {
+    marginTop: 24,
+    backgroundColor: colors.primary,
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center' as const,
+  },
+  submitButtonText: {
+    color: colors.activeFilterText,
+    fontWeight: 'bold' as const,
+    fontSize: 18,
+  },
+  loading: {
+    marginVertical: 12,
+  },
+}),
+
+addCatalogScreen: StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+    padding: 16,
+  },
+  scrollContent: {
+    paddingBottom: 32,
+    paddingTop: 16,
+    flexGrow: 1,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold' as const,
+    color: colors.textPrimary,
+    marginBottom: 16,
+  },
+  subHeader: {
+    fontSize: 20,
+    fontWeight: '600' as const,
+    color: colors.textPrimary,
+    marginBottom: 12,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderRadius: 8,
+    padding: 12,
+    color: colors.textPrimary,
+    backgroundColor: colors.cardBackground,
+    marginBottom: 16,
+  },
+  imagePickerButton: {
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    backgroundColor: colors.surface,
+    marginBottom: 16,
+  },
+  imagePreview: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  catalogItem: {
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16,
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+  },
+  catalogItemImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  catalogItemTextContainer: {
+    flex: 1,
+  },
+  catalogItemName: {
+    fontSize: 16,
+    fontWeight: 'bold' as const,
+    color: colors.textPrimary,
+  },
+  catalogItemDescription: {
+    fontSize: 14,
+    color: colors.secondaryText,
+    marginTop: 4,
+  },
+  addButton: {
+    marginTop: 16,
+    backgroundColor: colors.primary,
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center' as const,
+  },
+  addButtonText: {
+    color: colors.activeFilterText,
+    fontWeight: 'bold' as const,
+    fontSize: 16,
+  },
+  saveButton: {
+    marginTop: 24,
+    backgroundColor: colors.accent,
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center' as const,
+  },
+  saveButtonText: {
+    color: colors.activeFilterText,
+    fontWeight: 'bold' as const,
+    fontSize: 18,
+  },
+}),
+
+businessesScreen: StyleSheet.create({
+  scrollView: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large, // Adjust padding for FAB and bottom bar
+  },
+  safeArea: { // Often handled by global.safeArea, but explicitly defined here too
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: SPACING.large,
+    paddingHorizontal: SPACING.medium,
+    paddingTop: SPACING.medium, // Adjust for status bar if not using SafeAreaView always
+  },
+  pageTitle: {
+    fontSize: FONT_SIZES.heading1,
+    fontWeight: "bold",
+    color: colors.textPrimary,
+  },
+  themeToggleContainer: { // If theme toggle lives here
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  themeToggleText: {
+    fontSize: FONT_SIZES.medium,
+    marginRight: SPACING.small,
+    color: colors.textSecondary,
+  },
+  searchBar: {
+    width: "100%",
+    paddingVertical: SPACING.small + 4, // More vertical padding
+    paddingHorizontal: SPACING.medium,
+    borderRadius: 25,
+    borderWidth: 1,
+    fontSize: FONT_SIZES.medium,
+    marginBottom: SPACING.large,
+    backgroundColor: colors.cardBackground,
+    borderColor: colors.border,
+    color: colors.textPrimary,
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 3,
+      },
+      web: {
+        boxShadow: `0 2px 3px ${colors.shadowColor}1A`,
+      },
+    }),
+    marginHorizontal: SPACING.medium,
+  },
+  filterContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: 'center',
+    marginBottom: SPACING.large,
+    paddingHorizontal: SPACING.medium,
+  },
+  filterLabel: {
+    fontSize: FONT_SIZES.medium,
+    color: colors.textSecondary,
+    marginRight: SPACING.small,
+  },
+  dropdownButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.cardBackground,
+    borderRadius: SPACING.small,
+    paddingVertical: SPACING.small,
+    paddingHorizontal: SPACING.medium,
+    borderWidth: 1,
+    borderColor: colors.border,
+    minWidth: 120, // Give some minimum width
+    justifyContent: 'space-between',
+    marginHorizontal: SPACING.xsmall,
+  },
+  dropdownButtonText: {
+    fontSize: FONT_SIZES.medium,
+    color: colors.textPrimary,
+    marginRight: SPACING.xsmall,
+  },
+  flatListContent: { // Content style for the FlatList itself
+    paddingHorizontal: SPACING.medium,
+    paddingBottom: SPACING.large, // Padding at the bottom of the list
+  },
+  flatListStyle: {
+    flex: 1, // Allow FlatList to grow
+  },
+  loadingText: { // For loading messages within the screen
+    marginTop: SPACING.small,
+    fontSize: FONT_SIZES.medium,
+    color: colors.secondaryText,
+    textAlign: 'center',
+  },
+  activityIndicatorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: 150, // Give some height for loading indicator
+  },
+  noResultsText: {
+    textAlign: "center",
+    marginTop: SPACING.xlarge,
+    fontSize: FONT_SIZES.medium,
+    color: colors.secondaryText,
+    paddingBottom: SPACING.large,
+  },
+  tabContainer: {
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  marginBottom: SPACING.medium,
+},
+
+tabButton: {
+  paddingVertical: SPACING.small,
+  paddingHorizontal: SPACING.large,
+  backgroundColor: colors.cardBackground,
+  borderRadius: 8,
+},
+
+activeTab: {
+  backgroundColor: colors.primary,
+},
+
+tabText: {
+  color: colors.text,
+},
+tabBar: {
+  backgroundColor: colors.background,
+},
+tabLabel: {
+  fontWeight: 'bold',
+  fontSize: FONT_SIZES.medium,
+},
+tabIndicator: {
+  backgroundColor: colors.primary,
+  height: 3,
+},
+
+  businessCard: { // Style for each business item in the list
+     flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: colors.cardBackground,
+  borderRadius: 16,
+  padding: 14,
+  marginBottom: 14,
+  shadowColor: colors.shadowColor,
+  shadowOpacity: 0.10,
+  shadowRadius: 6,
+  shadowOffset: { width: 0, height: 4 },
+  elevation: 2,
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 3,
+      },
+      web: {
+        boxShadow: `0 2px 3px ${colors.shadowColor}1A`,
+      },
+    }),
+  },
+ 
+
+
+businessImageContainer: {
+  width: 62,
+  height: 62,
+  borderRadius: 14,
+  overflow: 'hidden',
+  backgroundColor: colors.surface,
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginRight: 15,
+},
+
+businessImage: {
+  width: '100%',
+  height: '100%',
+  resizeMode: 'cover',
+},
+
+businessInitialsFallback: {
+  width: '100%',
+  height: '100%',
+  backgroundColor: colors.primaryLight,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: 14,
+},
+
+businessInitialsText: {
+  color: colors.primary,
+  fontWeight: 'bold',
+  fontSize: 26,
+},
+
+businessInfo: {
+  flex: 1,
+},
+
+businessName: {
+  fontSize: FONT_SIZES.large,
+  fontWeight: 'bold',
+  color: colors.textPrimary,
+  marginBottom: 2,
+},
+
+businessDescription: {
+  color: colors.secondaryText,
+  fontSize: FONT_SIZES.medium,
+  marginBottom: 2,
+},
+
+metaRow: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop: 4,
+  gap: 5,
+},
+
+businessMeta: {
+  color: colors.secondaryText,
+  fontSize: FONT_SIZES.small,
+  marginLeft: 4,
+  marginRight: 6,
+  maxWidth: 90,
+},
+
+  fab: { // Floating Action Button
+    position: 'absolute',
+    bottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.large, // Position above the tab bar
+    right: SPACING.large,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: colors.primary, // Primary color for FAB
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 20, // Android elevation
+      },
+      web: {
+        boxShadow: `0px 4px 5px ${colors.shadowColor}4D`, // Web boxShadow
+      },
+    }),
+    zIndex: 1000, // Ensure it's on top
+  },
+}),
+
+
 
     createCommunityScreen: StyleSheet.create({
       container: {
@@ -655,108 +1345,77 @@ communityDetailScreen: StyleSheet.create({
       },
     }),
 
-  userprofileScreen: StyleSheet.create({ // Ensure this exact name (lowercase 'p')
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    padding: SPACING.large,
-    paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.xxlarge, // Adjust as needed
-  },
-  loadingScreen: { // For initial loading state
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.background,
-  },
-  loadingText: { // For loading messages
-    marginTop: SPACING.small,
-    fontSize: FONT_SIZES.medium,
-    fontWeight: 'bold',
-    color: colors.textPrimary, // Use theme color
-  },
-  profileHeader: { // Container for profile image and username
-    alignItems: 'center',
-    marginBottom: SPACING.xlarge,
-    marginTop: SPACING.large,
-  },
-  profileImage: { // For the profile picture itself
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: colors.placeholder, // Placeholder background color
-    marginBottom: SPACING.medium,
-    borderWidth: 2,
-    borderColor: colors.border, // Border around the profile pic
-  },
-  username: { // For the username display
-    fontSize: FONT_SIZES.heading2, // A larger font size for the username
-    fontWeight: 'bold',
+userprofileScreen: StyleSheet.create({
+
+      scrollViewContent: {
+        flexGrow: 1,
+        padding: SPACING.large,
+        paddingBottom: BOTTOM_TAB_BAR_HEIGHT + SPACING.xxlarge,
+        backgroundColor: colors.background,
+      },
+  
+  loadingText: {
+    marginTop: SPACING.medium,
     color: colors.textPrimary,
-    marginBottom: SPACING.small,
-  },
-  sectionContainer: { // For sections like "About Me" or "Social Link"
-    marginBottom: SPACING.large,
-    padding: SPACING.medium,
-    backgroundColor: colors.cardBackground, // Background for the section card
-    borderRadius: SPACING.medium,
-    borderWidth: 1,
-    borderColor: colors.border,
-    shadowColor: colors.shadowColor,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  sectionHeader: { // For titles of sections (e.g., "About Me")
-    fontSize: FONT_SIZES.large,
-    fontWeight: 'bold',
-    color: colors.textSecondary,
-    marginBottom: SPACING.small,
-  },
-  bioText: { // For the "About Me" text
     fontSize: FONT_SIZES.medium,
-    color: colors.textPrimary,
-    lineHeight: FONT_SIZES.xlarge, // Adjust line height for readability
-  },
-  linkText: { // For social links
-    fontSize: FONT_SIZES.medium,
-    color: colors.primary, // Primary color for links
-    textDecorationLine: 'underline',
-  },
-  chatButton: { // For the "Chat" button
-    backgroundColor: colors.primary,
-    paddingVertical: SPACING.medium,
-    paddingHorizontal: SPACING.large,
-    borderRadius: SPACING.large,
-    alignItems: 'center',
-    marginTop: SPACING.large,
-    shadowColor: colors.shadowColor,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    elevation: 8,
-  },
-  chatButtonText: {
-    color: colors.buttonText,
-    fontSize: FONT_SIZES.large,
-    fontWeight: 'bold',
   },
   errorText: {
-  color: colors.error, // Uses the 'error' color from your theme
-  fontSize: FONT_SIZES.medium,
-  marginBottom: SPACING.medium,
-  textAlign: 'center',
-},
-  noProfileText: {
+    color: colors.error,
+    fontSize: FONT_SIZES.medium,
+    textAlign: 'center',
+    margin: SPACING.medium,
+  },
+  
+  profileImage: {
+    
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    marginBottom: SPACING.large,
+    backgroundColor: colors.cardBackground,
+  },
+   profilePicContainer: {
+        alignItems: "center",
+        marginBottom: SPACING.xlarge,
+      },
+      profilePic: {
+        width: 130,
+        height: 130,
+        borderRadius: 65,
+        borderWidth: 3,
+        backgroundColor: colors.cardBackground,
+      },
+  username: {
+    fontSize: FONT_SIZES.heading2,
+    fontWeight: 'bold',
+    color: colors.textPrimary,
+    marginBottom: SPACING.large,
+    textAlign: 'center',
+  },
+  sectionContainer: {
+    width: '100%',
+    backgroundColor: colors.cardBackground,
+    borderRadius: 8,
+    padding: SPACING.medium,
+    marginBottom: SPACING.large,
+  },
+  sectionHeader: {
+    fontSize: FONT_SIZES.large,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: SPACING.small,
+  },
+  bioText: {
     fontSize: FONT_SIZES.medium,
     color: colors.textSecondary,
-    textAlign: 'center',
-    marginTop: SPACING.xlarge,
+  },
+  linkText: {
+    fontSize: FONT_SIZES.medium,
+    color: colors.link,
+    textDecorationLine: 'underline',
   },
 }),
+
 
     profileScreen: StyleSheet.create({
       safeArea: {
@@ -781,8 +1440,14 @@ communityDetailScreen: StyleSheet.create({
         color: colors.text,
       },
       headerContainer: {
-        marginBottom: SPACING.xlarge,
-        alignItems: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: SPACING.medium,
+    paddingHorizontal: SPACING.medium,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    backgroundColor: colors.background,
+    marginBottom: SPACING.small,
       },
       headerTitle: {
         fontSize: FONT_SIZES.heading1,
@@ -832,7 +1497,6 @@ communityDetailScreen: StyleSheet.create({
         shadowColor: colors.shadowColor,
         ...Platform.select({
           web: {
-            outlineStyle: 'none' as 'none',
             boxShadow: '0px 2px 3px rgba(0,0,0,0.1)',
           }
         })
@@ -868,6 +1532,48 @@ communityDetailScreen: StyleSheet.create({
         color: colors.activeFilterText,
       },
     }),
+
+    // Inside createStyles function in Screens/context/appStyles.ts
+bottomTabsNavigator: StyleSheet.create({
+
+  fab: {
+    position: "absolute",
+    bottom: SPACING.medium * 1.5, // Adjusted from 25 to use SPACING
+    alignSelf: "center",
+    width: 54,
+    height: 54,
+    borderRadius: 27, // Half of width/height
+    backgroundColor: colors.primary,
+    ...Platform.select({
+      ios: { shadowColor: colors.shadowColor, shadowOffset: { width: 0, height: 5 }, shadowOpacity: 0.3, shadowRadius: 6.27 },
+      android: { elevation: 10 },
+      web: { boxShadow: `0px 5px 6.27px ${colors.shadowColor}4D` },
+    }),
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 999,
+  },
+  fabText: {
+    fontSize: FONT_SIZES.xxlarge,
+    color: colors.buttonText, // Use colors.buttonText
+    fontWeight: "bold",
+  },
+  fabSpacer: {
+    width: 60, // Equal to FAB width for spacing
+  },
+  tabButton: { // General style for each tab icon/text wrapper
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
+    paddingVertical: SPACING.small, // Add some vertical padding
+  },
+  tabText: { // Style for the text label below the icon (if tabBarShowLabel was true)
+    color: colors.secondaryText, // Default color for inactive tab text
+    fontSize: FONT_SIZES.xsmall,
+    marginTop: SPACING.small,
+  },
+}),
+
     groupChatScreen: StyleSheet.create({
       safeArea: {
     flex: 1,
@@ -901,6 +1607,40 @@ communityDetailScreen: StyleSheet.create({
     padding: SPACING.xsmall,
     marginRight: SPACING.small,
   },
+  emojiButton: {
+  paddingHorizontal: 8,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+emojiButtonText: {
+  fontSize: 24,
+},
+
+emojiPickerContainer: {
+  backgroundColor: colors.cardBackground,
+  padding: SPACING.small,
+  borderTopWidth: 1,
+  borderColor: colors.borderColor,
+  maxHeight: 200,
+},
+
+emojiPickerScroll: {
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  justifyContent: 'flex-start',
+},
+
+emojiItem: {
+  padding: 6,
+  margin: 2,
+  borderRadius: 6,
+  backgroundColor: colors.cardBackground,
+},
+
+emojiText: {
+  fontSize: 24,
+},
+
   headerAvatar: {
     width: 40,
     height: 40,
@@ -1085,15 +1825,21 @@ communityDetailScreen: StyleSheet.create({
     marginTop: SPACING.xsmall,
   },
 
-  // Input area styles
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: SPACING.medium,
-    backgroundColor: colors.background,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-  },
+inputContainer: {
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 8,
+  backgroundColor: colors.cardBackground,
+  borderTopWidth: 1,
+  borderTopColor: colors.borderColor,
+  zIndex: 10,
+  elevation: 10,
+}
+,
   input: { // Main text input field
     flex: 1,
     paddingVertical: SPACING.small,
@@ -1199,11 +1945,12 @@ communityDetailScreen: StyleSheet.create({
       headerContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingBottom: SPACING.medium,
+        paddingVertical: SPACING.medium,
+        paddingHorizontal: SPACING.medium,
         borderBottomWidth: 1,
         borderBottomColor: colors.border,
-        marginBottom: SPACING.large,
+        backgroundColor: colors.background,
+        marginBottom: SPACING.small,
       },
       backButton: {
         padding: SPACING.xsmall,
@@ -1304,289 +2051,901 @@ communityDetailScreen: StyleSheet.create({
         fontWeight: '500',
       },
     }),
-    chatRoomScreen: StyleSheet.create({ // Single, correct definition for chatRoomScreen
-      container: {
-        flex: 1,
-        backgroundColor: colors.background,
-      },
-      headerContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: SPACING.medium,
-        paddingHorizontal: SPACING.large,
-        backgroundColor: colors.primary,
-        paddingTop: Platform.OS === 'android' ? SPACING.large : SPACING.xxlarge,
-      },
-      backButton: {
-        paddingHorizontal: SPACING.small,
-        paddingVertical: SPACING.small,
-        marginRight: SPACING.medium,
-      },
-      backButtonText: {
-        color: colors.activeFilterText,
-        fontSize: FONT_SIZES.xxlarge,
-        fontWeight: 'bold',
-      },
-      recipientProfilePic: {
-        width: 36,
-        height: 36,
-        borderRadius: 18,
-        marginRight: SPACING.small,
-        borderWidth: 1,
-        borderColor: colors.activeFilterText,
-      },
-      headerTitle: {
-        color: colors.activeFilterText,
-        fontSize: FONT_SIZES.large,
-        fontWeight: 'bold',
-        flex: 1,
-      },
-      messagesList: {
-        paddingVertical: SPACING.small,
-        paddingHorizontal: SPACING.medium,
-      },
-      messageBubble: {
-        padding: SPACING.small,
-        borderRadius: SPACING.medium,
-        marginBottom: SPACING.small,
-        maxWidth: '80%',
+
+    usersScreen: StyleSheet.create({
+  listContent: {
+    padding: SPACING.small,
+  },
+  userCard: {
+    flex: 1,
+    margin: SPACING.small,
+    backgroundColor: colors.cardBackground,
+    borderRadius: SPACING.medium,
+    alignItems: 'center',
+    padding: SPACING.medium,
+    shadowColor: colors.shadowColor,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  userAvatar: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginBottom: SPACING.small,
+    backgroundColor: colors.placeholder,
+  },
+  username: {
+    fontSize: FONT_SIZES.medium,
+    color: colors.textPrimary,
+    textAlign: 'center',
+  },
+}),
+
+businessChatScreen: StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: SPACING.medium,
+    paddingHorizontal: SPACING.large,
+    backgroundColor: colors.primary, // Primary color for chat header
+    paddingTop: Platform.OS === 'android' ? SPACING.large : SPACING.xxlarge, // Adjust for status bar
+  },
+  backButton: { // Back button in header
+    paddingHorizontal: SPACING.small,
+    paddingVertical: SPACING.small,
+    marginRight: SPACING.medium,
+  },
+  headerImage: { // For business image in chat header
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.placeholder, // Placeholder background
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SPACING.small,
+  },
+  headerImageText: { // Text for business initials fallback
+    color: colors.buttonText,
+    fontSize: FONT_SIZES.medium,
+    fontWeight: 'bold',
+  },
+  headerTitle: { // Business name in header
+    color: colors.activeFilterText,
+    fontSize: FONT_SIZES.large,
+    fontWeight: 'bold',
+    flex: 1, // Take available space
+  },
+  viewProfileButton: { // Button to view business profile/details
+    padding: SPACING.xsmall,
+    marginLeft: SPACING.small,
+  },
+  messagesList: { // Content container style for FlatList of messages
+    paddingVertical: SPACING.small,
+    paddingHorizontal: SPACING.medium,
+  },
+  messageBubble: { // Base style for all message bubbles
+    padding: SPACING.small,
+    borderRadius: SPACING.medium,
+    marginBottom: SPACING.small,
+    maxWidth: '80%', // Max width for message bubble
+    shadowColor: colors.shadowColor,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 1,
+  },
+  myMessageBubble: { // Style for current user's messages
+    alignSelf: 'flex-end', // Align to right
+    backgroundColor: colors.primaryLight, // Lighter primary for own messages
+    borderBottomRightRadius: SPACING.xsmall, // For message "tail"
+  },
+  otherMessageBubble: { // Style for other users/bot messages
+    alignSelf: 'flex-start', // Align to left
+    backgroundColor: colors.cardBackground, // Card background for others
+    borderBottomLeftRadius: SPACING.xsmall, // For message "tail"
+  },
+  myMessageText: { // Text style for current user's messages
+    color: colors.text, // Text on primaryLight background
+    fontSize: FONT_SIZES.medium,
+  },
+  otherMessageText: { // Text style for other users/bot messages
+    color: colors.text, // Text on cardBackground
+    fontSize: FONT_SIZES.medium,
+  },
+  timestampText: { // Timestamp style
+    fontSize: FONT_SIZES.xsmall,
+    color: colors.secondaryText,
+    alignSelf: 'flex-end',
+    marginTop: SPACING.xsmall / 2,
+  },
+  messageAvatar: { // Avatar in message bubbles
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    marginHorizontal: SPACING.xsmall, // Space between avatar and bubble
+    backgroundColor: colors.placeholder,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  messageContentWrapper: { // Wrapper for message text, media, and progress/error indicators
+    flex: 1, // Allow content to take space
+    // Padding and border radius come from messageBubble
+  },
+
+  // Media/File Message Styles
+  mediaMessageImage: { // For images and video previews
+    width: Dimensions.get('window').width * 0.6, // Relative width
+    height: Dimensions.get('window').width * 0.45, // Aspect ratio
+    borderRadius: SPACING.medium,
+    marginBottom: SPACING.xsmall,
+    resizeMode: 'cover',
+  },
+  videoMessageContainer: { // Container for video preview
+    position: 'relative',
+    borderRadius: SPACING.medium,
+    overflow: 'hidden',
+  },
+  videoPlayText: { // Text overlay on video preview
+    color: colors.activeFilterText,
+    fontSize: FONT_SIZES.small,
+    textAlign: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    borderRadius: SPACING.medium,
+  },
+  fileMessageContainer: { // Container for file messages
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SPACING.small,
+    backgroundColor: colors.background, // Background for file bubble
+    borderRadius: SPACING.medium,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  fileIcon: { // Icon for file messages
+    marginRight: SPACING.small,
+  },
+  fileDetails: { // Container for file name and size
+    flex: 1,
+  },
+  fileNameText: {
+    fontSize: FONT_SIZES.medium,
+    fontWeight: 'bold',
+    color: colors.textPrimary,
+  },
+  fileSizeText: {
+    fontSize: FONT_SIZES.small,
+    color: colors.textSecondary,
+  },
+  uploadProgressBarContainer: { // Progress bar container for uploads
+    width: '100%',
+    height: SPACING.xsmall,
+    backgroundColor: colors.borderColor,
+    borderRadius: SPACING.xsmall / 2,
+    overflow: 'hidden',
+    marginTop: SPACING.xsmall,
+  },
+  uploadProgressBar: { // Actual progress bar fill
+    height: '100%',
+    backgroundColor: colors.primary,
+    borderRadius: SPACING.xsmall / 2,
+  },
+  uploadProgressText: { // Text for upload progress percentage
+    fontSize: FONT_SIZES.xsmall,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginTop: SPACING.xsmall / 2,
+  },
+  messageErrorBubble: { // Style for messages that failed to upload
+    backgroundColor: colors.error + '33', // Lighter error color with transparency
+    borderColor: colors.error,
+    borderWidth: 1,
+  },
+  uploadErrorText: { // Text for upload error message
+    fontSize: FONT_SIZES.small,
+    color: colors.error,
+    marginTop: SPACING.xsmall,
+  },
+
+  // Input Area Styles
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SPACING.small,
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderColor,
+    // Shadows for input container
+    ...Platform.select({
+      ios: {
         shadowColor: colors.shadowColor,
-        shadowOffset: { width: 0, height: 1 },
+        shadowOffset: { width: 0, height: -2 },
         shadowOpacity: 0.1,
-        shadowRadius: 1,
-        elevation: 1,
+        shadowRadius: 4,
       },
-      myMessageBubble: {
-        alignSelf: 'flex-end',
-        backgroundColor: colors.primaryLight,
-        borderBottomRightRadius: SPACING.xsmall,
+      android: {
+        elevation: 8,
       },
-      otherMessageBubble: {
-        alignSelf: 'flex-start',
-        backgroundColor: colors.cardBackground,
-        borderBottomLeftRadius: SPACING.xsmall,
+      web: {
+        boxShadow: `0px -2px 4px ${colors.shadowColor}1A`,
       },
-      myMessageText: {
-        color: colors.text,
-        fontSize: FONT_SIZES.medium,
-      },
-      otherMessageText: {
-        color: colors.text,
-        fontSize: FONT_SIZES.medium,
-      },
-      timestampText: {
-        fontSize: FONT_SIZES.xsmall,
-        color: colors.secondaryText,
-        alignSelf: 'flex-end',
-        marginTop: SPACING.xsmall / 2,
-      },
-      inputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: SPACING.small,
-        backgroundColor: colors.surface,
-        borderTopWidth: 1,
-        borderColor: colors.borderColor,
-      },
-      textInput: {
-        flex: 1,
-        maxHeight: 100,
-        backgroundColor: colors.background,
-        borderRadius: SPACING.xlarge,
-        paddingHorizontal: SPACING.medium,
-        paddingVertical: SPACING.small,
-        marginRight: SPACING.small,
-        fontSize: FONT_SIZES.medium,
-        color: colors.text,
-        borderWidth: 1,
-        borderColor: colors.borderColor,
-      },
-      sendButton: {
-        backgroundColor: colors.primary,
-        borderRadius: SPACING.xlarge,
-        paddingVertical: SPACING.medium - 2,
-        paddingHorizontal: SPACING.large,
-        justifyContent: 'center',
-        alignItems: 'center',
+    }),
+  },
+  textInput: { // Main text input field
+    flex: 1,
+    maxHeight: 120, // Limit height for multiline input
+    backgroundColor: colors.background,
+    borderRadius: SPACING.large,
+    paddingHorizontal: SPACING.medium,
+    paddingVertical: SPACING.small,
+    marginRight: SPACING.small,
+    fontSize: FONT_SIZES.medium,
+    color: colors.textPrimary,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  sendButton: { // Send button
+    backgroundColor: colors.primary,
+    borderRadius: SPACING.large, // Pill shape
+    paddingVertical: SPACING.medium - 2, // Adjusted padding
+    paddingHorizontal: SPACING.large,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      ios: {
         shadowColor: colors.shadowColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
+      },
+      android: {
         elevation: 5,
       },
-      sendButtonText: {
-        color: colors.activeFilterText,
-        fontWeight: 'bold',
-        fontSize: FONT_SIZES.medium,
-      },
-      attachmentButton: {
-        padding: SPACING.small,
-        borderRadius: SPACING.medium,
-        backgroundColor: colors.primaryLight,
-        marginRight: SPACING.small,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      attachmentButtonText: {
-        fontSize: FONT_SIZES.large,
-      },
-      emojiButton: {
-        padding: SPACING.small,
-        borderRadius: SPACING.medium,
-        backgroundColor: colors.primaryLight,
-        marginRight: SPACING.small,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      emojiButtonText: {
-        fontSize: FONT_SIZES.large,
-      },
-      mediaMessageImage: {
-        width: Dimensions.get('window').width * 0.6,
-        height: Dimensions.get('window').width * 0.45,
-        borderRadius: SPACING.medium,
-        marginBottom: SPACING.xsmall,
-        resizeMode: 'cover',
-      },
-      videoMessageContainer: {
-        position: 'relative',
-        borderRadius: SPACING.medium,
-        overflow: 'hidden',
-      },
-      videoPlayText: {
-        color: colors.activeFilterText,
-        fontSize: FONT_SIZES.small,
-        textAlign: 'center',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.4)',
-        borderRadius: SPACING.medium,
-      },
-      mediaUploadIndicator: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: SPACING.small,
-        paddingHorizontal: SPACING.medium,
-        backgroundColor: colors.surface,
-        borderRadius: SPACING.large,
-        flex: 1,
-      },
-      mediaUploadText: {
-        marginLeft: SPACING.small,
-        color: colors.textSecondary,
-        fontSize: FONT_SIZES.medium,
-      },
-      emojiPickerContainer: {
-        backgroundColor: colors.surface,
-        borderTopWidth: 1,
-        borderColor: colors.borderColor,
-        height: 200,
-        padding: SPACING.small,
-      },
-      emojiListContent: {
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      emojiItem: {
-        padding: SPACING.xsmall,
-        margin: SPACING.xsmall,
-        borderRadius: SPACING.small,
-        backgroundColor: colors.background,
-      },
-      emojiText: {
-        fontSize: FONT_SIZES.xxlarge,
-      },
-      fileMessageContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: SPACING.small,
-        backgroundColor: colors.background,
-        borderRadius: SPACING.medium,
-        borderWidth: 1,
-        borderColor: colors.borderColor,
-      },
-      fileIcon: {
-        fontSize: FONT_SIZES.xxlarge,
-        marginRight: SPACING.small,
-      },
-      fileDetails: {
-        flex: 1,
-      },
-      fileNameText: {
-        fontSize: FONT_SIZES.medium,
-        fontWeight: 'bold',
-        color: colors.text,
-      },
-      fileSizeText: {
-        fontSize: FONT_SIZES.small,
-        color: colors.secondaryText,
-      },
-      uploadProgressBarContainer: {
-        width: '100%',
-        height: SPACING.small,
-        backgroundColor: colors.borderColor,
-        borderRadius: SPACING.small / 2,
-        overflow: 'hidden',
-        marginTop: SPACING.xsmall,
-      },
-      uploadProgressBar: {
-        height: '100%',
-        backgroundColor: colors.primary,
-        borderRadius: SPACING.small / 2,
-      },
-      uploadProgressText: {
-        fontSize: FONT_SIZES.xsmall,
-        color: colors.textSecondary,
-        textAlign: 'center',
-        marginTop: SPACING.xsmall / 2,
-      },
-      messageErrorBubble: {
-        backgroundColor: colors.error + '33',
-        borderColor: colors.error,
-        borderWidth: 1,
-      },
-      uploadErrorText: {
-        fontSize: FONT_SIZES.small,
-        color: colors.error,
-        marginTop: SPACING.xsmall,
-      },
-      attachmentOptionsContainer: {
-        position: 'absolute',
-        bottom: '100%',
-        width: '100%',
-        left: 0,
-        right: 0,
-        backgroundColor: colors.surface,
-        borderTopWidth: 1,
-        borderColor: colors.borderColor,
-        paddingVertical: SPACING.small,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        paddingHorizontal: SPACING.small,
-        zIndex: 1,
-        minHeight: 60,
-      },
-      attachmentOptionButton: {
-        padding: SPACING.small,
-        borderRadius: SPACING.medium,
-        backgroundColor: colors.background,
-        borderWidth: 1,
-        borderColor: colors.borderColor,
-        marginHorizontal: SPACING.xsmall,
-      },
-      attachmentOptionButtonText: {
-        fontSize: FONT_SIZES.medium,
-        color: colors.text,
+      web: {
+        boxShadow: `0px 2px 3.84px ${colors.shadowColor}40`,
       },
     }),
+  },
+  sendButtonText: {
+    color: colors.activeFilterText,
+    fontWeight: 'bold',
+    fontSize: FONT_SIZES.medium,
+  },
+
+  // Attachment Options Container
+  attachmentOptionsContainer: {
+    position: 'absolute',
+    bottom: '100%', // Position directly above inputContainer
+    width: '100%',
+    left: 0,
+    right: 0,
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderColor: colors.border,
+    paddingVertical: SPACING.small,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.small,
+    zIndex: 1, // Ensure it's above message list
+    minHeight: 60,
+  },
+  attachmentOptionButton: {
+    padding: SPACING.small,
+    borderRadius: SPACING.medium,
+    backgroundColor: colors.background,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginHorizontal: SPACING.xsmall,
+  },
+  attachmentOptionButtonText: {
+    fontSize: FONT_SIZES.medium,
+    color: colors.textPrimary,
+  },
+  mediaUploadIndicator: { // For when media is uploading
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SPACING.small,
+    paddingHorizontal: SPACING.medium,
+    backgroundColor: colors.surface,
+    borderRadius: SPACING.large,
+    flex: 1,
+  },
+  mediaUploadText: {
+    marginLeft: SPACING.small,
+    color: colors.textSecondary,
+    fontSize: FONT_SIZES.medium,
+  },
+
+  // Emoji Picker Styles (if used)
+  emojiPickerContainer: {
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderColor: colors.border,
+    height: 200, // Fixed height for picker
+    padding: SPACING.small,
+  },
+  emojiListContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emojiItem: {
+    padding: SPACING.xsmall,
+    margin: SPACING.xsmall,
+    borderRadius: SPACING.small,
+    backgroundColor: colors.background,
+  },
+  emojiText: {
+    fontSize: FONT_SIZES.xxlarge,
+  },
+  emojiButton: { // Button to toggle emoji picker
+    padding: SPACING.small,
+    borderRadius: SPACING.medium,
+    backgroundColor: colors.primaryLight, // Lighter background for emoji button
+    marginRight: SPACING.small,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emojiButtonText: {
+    fontSize: FONT_SIZES.large,
+  },
+}),
+
+myBusinessScreen: StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: SPACING.medium,
+    paddingHorizontal: SPACING.medium,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderColor,
+    backgroundColor: colors.background,
+  },
+  sectionHeader: {
+  fontSize: FONT_SIZES.large,
+  fontWeight: 'bold',
+  color: colors.textPrimary,
+  marginBottom: SPACING.small,
+  marginTop: SPACING.large,
+  alignSelf: 'flex-start',
+},
+  headerTitle: {
+    fontSize: FONT_SIZES.heading2,
+    fontWeight: 'bold',
+    color: colors.textPrimary,
+  },
+  addButton: {
+    backgroundColor: colors.primary,
+    borderRadius: SPACING.large,
+    paddingVertical: SPACING.small,
+    paddingHorizontal: SPACING.medium,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+    shadowColor: colors.shadowColor,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  pageTitle: {
+  fontSize: FONT_SIZES.heading2,
+  fontWeight: 'bold',
+  color: colors.textPrimary,
+  paddingVertical: SPACING.medium,
+  paddingHorizontal: SPACING.medium,
+},
+label: {
+    color: colors.secondaryText,
+    fontSize: FONT_SIZES.small,
+    marginTop: 8,
+    fontWeight: "600",
+  },
+  value: {
+    color: colors.textPrimary,
+    fontSize: FONT_SIZES.medium,
+  },
+  backButton: {
+    padding: 6,
+  },
+  editButton: {
+    padding: 6,
+  },
+  businessImageWrapper: {
+    alignSelf: "center",
+    marginVertical: 16,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    overflow: "hidden",
+    backgroundColor: colors.surface,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  businessImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
+  },
+  businessImageFallback: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: colors.primaryLight,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  businessImageFallbackText: {
+    color: colors.primary,
+    fontWeight: "bold",
+    fontSize: FONT_SIZES.xxlarge,
+  },
+  infoContainer: {
+    marginHorizontal: 16,
+    padding: 12,
+    backgroundColor: colors.cardBackground,
+    borderRadius: 12,
+  },
+
+noResultsText: {
+  textAlign: 'center',
+  marginTop: SPACING.large,
+  fontSize: FONT_SIZES.medium,
+  color: colors.secondaryText,
+  paddingHorizontal: SPACING.medium,
+},
+
+catalogDescription: {
+  textAlign: 'center',
+  fontSize: FONT_SIZES.medium,
+  color: colors.secondaryText,
+  marginVertical: SPACING.small,
+  paddingHorizontal: SPACING.medium,
+},
+
+flatListContent: {
+  paddingBottom: SPACING.large + 80, // room for FAB or tab bar
+  paddingHorizontal: SPACING.medium,
+  paddingTop: SPACING.small,
+},
+
+flatListStyle: {
+  flexGrow: 1,
+  backgroundColor: colors.background,
+},
+
+  addButtonText: {
+    color: colors.buttonText,
+    fontSize: FONT_SIZES.medium,
+    fontWeight: 'bold',
+  },
+  businessList: {
+    paddingHorizontal: SPACING.medium,
+    paddingBottom: SPACING.large,
+  },
+  businessCard: {
+    backgroundColor: colors.cardBackground,
+    borderRadius: SPACING.large,
+    padding: SPACING.medium,
+    marginBottom: SPACING.medium,
+    flexDirection: 'row',
+    alignItems: 'center',
+    elevation: 2,
+    shadowColor: colors.shadowColor,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 1,
+  },
+  businessImageContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: colors.surface,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: SPACING.medium,
+  },
+
+  businessInitialsFallback: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.primaryLight,
+    width: '100%',
+    height: '100%',
+  },
+  businessInitialsText: {
+    color: colors.primary,
+    fontWeight: 'bold',
+    fontSize: FONT_SIZES.large,
+  },
+  businessInfo: {
+    flex: 1,
+  },
+  businessName: {
+    fontSize: FONT_SIZES.large,
+    fontWeight: 'bold',
+    color: colors.textPrimary,
+    marginBottom: SPACING.xsmall,
+  },
+  businessDescription: {
+    color: colors.secondaryText,
+    fontSize: FONT_SIZES.medium,
+    marginBottom: SPACING.xsmall,
+  },
+  businessMeta: {
+    color: colors.secondaryText,
+    fontSize: FONT_SIZES.small,
+  },
+  noBusinessesText: {
+    textAlign: 'center',
+    color: colors.secondaryText,
+    fontSize: FONT_SIZES.medium,
+    marginTop: SPACING.large,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: SPACING.small,
+    fontSize: FONT_SIZES.medium,
+    color: colors.secondaryText,
+  },
+}),
+
+
+chatRoomScreen: StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+
+  /** HEADER */
+ 
+  /** HEADER */
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: SPACING.medium,
+    paddingHorizontal: SPACING.medium,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    backgroundColor: colors.background,
+    marginBottom: SPACING.small,
+  },
+  backButton: {
+    padding: SPACING.xsmall,
+    marginRight: SPACING.small,
+  },
+  recipientProfilePic: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginLeft: SPACING.medium,
+    backgroundColor: colors.secondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  headerTitle: {
+    fontSize: FONT_SIZES.large,
+    fontWeight: "bold",
+    color: colors.textPrimary,
+    flex: 1,
+  },
+
+  profileButton: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginRight: SPACING.small,
+},
+
+  /** MESSAGES LIST */
+  messagesList: {
+    paddingVertical: SPACING.small,
+    paddingHorizontal: SPACING.medium,
+  },
+  messageBubble: {
+    padding: SPACING.medium,
+    borderRadius: SPACING.large,
+    marginBottom: SPACING.small,
+    maxWidth: '80%',
+    backgroundColor: colors.cardBackground,
+    shadowColor: colors.shadowColor,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 1,
+    elevation: 1,
+  },
+  myMessageBubble: {
+    alignSelf: 'flex-end',
+    backgroundColor: colors.primaryLight,
+    borderBottomRightRadius: SPACING.small,
+  },
+  otherMessageBubble: {
+    alignSelf: 'flex-start',
+    backgroundColor: colors.surface,
+    borderBottomLeftRadius: SPACING.small,
+  },
+  myMessageText: {
+    color: colors.text,
+    fontSize: FONT_SIZES.medium,
+  },
+  otherMessageText: {
+    color: colors.text,
+    fontSize: FONT_SIZES.medium,
+  },
+  timestampText: {
+    fontSize: FONT_SIZES.xsmall,
+    color: colors.secondaryText,
+    alignSelf: 'flex-end',
+    marginTop: SPACING.xsmall / 2,
+  },
+
+  /** INPUT AREA */
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SPACING.small,
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderTopColor: colors.borderColor,
+    elevation: 8,
+    shadowColor: colors.shadowColor,
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  textInput: {
+    flex: 1,
+    maxHeight: 120,
+    backgroundColor: colors.background,
+    borderRadius: SPACING.large,
+    paddingHorizontal: SPACING.medium,
+    paddingVertical: SPACING.small,
+    marginRight: SPACING.small,
+    fontSize: FONT_SIZES.medium,
+    color: colors.text,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+  },
+  sendButton: {
+    backgroundColor: colors.primary,
+    borderRadius: SPACING.large,
+    paddingVertical: SPACING.medium - 2,
+    paddingHorizontal: SPACING.large,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 4,
+    shadowColor: colors.shadowColor,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+  },
+  sendButtonText: {
+    color: colors.activeFilterText,
+    fontWeight: 'bold',
+    fontSize: FONT_SIZES.medium,
+  },
+
+  /** ATTACHMENT & EMOJI BUTTONS */
+  attachmentButton: {
+    padding: SPACING.small,
+    borderRadius: SPACING.medium,
+    backgroundColor: colors.primaryLight,
+    marginRight: SPACING.xsmall,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  attachmentButtonText: {
+    fontSize: FONT_SIZES.large,
+  },
+  emojiButton: {
+    padding: SPACING.small,
+    borderRadius: SPACING.medium,
+    backgroundColor: colors.primaryLight,
+    marginRight: SPACING.xsmall,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emojiButtonText: {
+    fontSize: FONT_SIZES.large,
+  },
+  catalogItem: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: colors.cardBackground,
+  padding: SPACING.medium,
+  borderRadius: SPACING.large,
+  marginRight: SPACING.small,
+  elevation: 2,
+  shadowColor: colors.shadowColor,
+  shadowOffset: { width: 0, height: 1 },
+  shadowOpacity: 0.1,
+  shadowRadius: 2,
+},
+catalogImage: {
+  width: 50,
+  height: 50,
+  borderRadius: SPACING.medium,
+  marginRight: SPACING.small,
+},
+
+
+  /** MEDIA & FILES */
+  mediaMessageImage: {
+    width: Dimensions.get('window').width * 0.6,
+    height: Dimensions.get('window').width * 0.45,
+    borderRadius: SPACING.medium,
+    marginBottom: SPACING.xsmall,
+    resizeMode: 'cover',
+  },
+  videoMessageContainer: {
+    position: 'relative',
+    borderRadius: SPACING.medium,
+    overflow: 'hidden',
+  },
+  videoPlayText: {
+    color: colors.activeFilterText,
+    fontSize: FONT_SIZES.small,
+    textAlign: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    borderRadius: SPACING.medium,
+  },
+  fileMessageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: SPACING.small,
+    backgroundColor: colors.background,
+    borderRadius: SPACING.medium,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+  },
+  fileIcon: {
+    fontSize: FONT_SIZES.xxlarge,
+    marginRight: SPACING.small,
+  },
+  fileDetails: {
+    flex: 1,
+  },
+  fileNameText: {
+    fontSize: FONT_SIZES.medium,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  fileSizeText: {
+    fontSize: FONT_SIZES.small,
+    color: colors.secondaryText,
+  },
+
+  /** UPLOAD / ERRORS */
+  uploadProgressBarContainer: {
+    width: '100%',
+    height: SPACING.small,
+    backgroundColor: colors.borderColor,
+    borderRadius: SPACING.small / 2,
+    overflow: 'hidden',
+    marginTop: SPACING.xsmall,
+  },
+  uploadProgressBar: {
+    height: '100%',
+    backgroundColor: colors.primary,
+    borderRadius: SPACING.small / 2,
+  },
+  uploadProgressText: {
+    fontSize: FONT_SIZES.xsmall,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginTop: SPACING.xsmall / 2,
+  },
+  messageErrorBubble: {
+    backgroundColor: colors.error + '33',
+    borderColor: colors.error,
+    borderWidth: 1,
+  },
+  uploadErrorText: {
+    fontSize: FONT_SIZES.small,
+    color: colors.error,
+    marginTop: SPACING.xsmall,
+  },
+
+  /** ATTACHMENT OPTIONS */
+  attachmentOptionsContainer: {
+    position: 'absolute',
+    bottom: '100%',
+    width: '100%',
+    left: 0,
+    right: 0,
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderColor: colors.borderColor,
+    paddingVertical: SPACING.small,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingHorizontal: SPACING.small,
+    zIndex: 1,
+    minHeight: 60,
+  },
+  attachmentOptionButton: {
+    padding: SPACING.small,
+    borderRadius: SPACING.medium,
+    backgroundColor: colors.background,
+    borderWidth: 1,
+    borderColor: colors.borderColor,
+    marginHorizontal: SPACING.xsmall,
+  },
+  attachmentOptionButtonText: {
+    fontSize: FONT_SIZES.medium,
+    color: colors.text,
+  },
+
+  /** EMOJI PICKER */
+  emojiPickerContainer: {
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderColor: colors.borderColor,
+    height: 200,
+    padding: SPACING.small,
+  },
+  emojiListContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emojiItem: {
+    padding: SPACING.xsmall,
+    margin: SPACING.xsmall,
+    borderRadius: SPACING.small,
+    backgroundColor: colors.background,
+  },
+  emojiText: {
+    fontSize: FONT_SIZES.xxlarge,
+  },
+  mediaUploadIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SPACING.small,
+    paddingHorizontal: SPACING.medium,
+    backgroundColor: colors.surface,
+    borderRadius: SPACING.large,
+    flex: 1,
+  },
+  mediaUploadText: {
+    marginLeft: SPACING.small,
+    color: colors.textSecondary,
+    fontSize: FONT_SIZES.medium,
+  },
+}),
+
   };
 };
 

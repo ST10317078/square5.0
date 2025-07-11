@@ -12,15 +12,16 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Community, RootStackParamList } from "../types";
+import { Community, RootStackParamList } from "../../types";
 import { collection, addDoc } from "firebase/firestore";
-import { db, auth, storage } from "../firebaseConfig";
+import { db, auth, storage } from "../../firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
-import { useTheme } from './context/ThemeContext';
-import createStyles, { SPACING } from './context/appStyles';
+import { useTheme } from '../context/ThemeContext';
+import createStyles, { FONT_SIZES, SPACING } from '../context/appStyles';
+import { Ionicons } from "@expo/vector-icons";
 
-const DEFAULT_COMMUNITY_LOGO = require("../assets/community-placeholder.png");
+const DEFAULT_COMMUNITY_LOGO = require("../../assets/community-placeholder.png");
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "CreateCommunityScreen">;
 
@@ -72,9 +73,6 @@ const CreateCommunityScreen = () => {
     console.log("Current User UID:", auth.currentUser.uid);
     console.log("Is User Authenticated?", auth.currentUser != null);
 
-    // Use a more specific path for community logos, perhaps based on the community ID
-    // For creation, we don't have a community ID yet, so we'll use a temporary one based on user UID
-    // Once the community is created, you might want to update the logo path to use the actual community ID
     const fileName = `community_logos/${communityId}.jpg`; // Use the passed communityId as filename
     console.log("Target Storage Path:", fileName);
 
@@ -159,8 +157,8 @@ const CreateCommunityScreen = () => {
       setCommunityLogoUri(null);
 
     } catch (error) {
-      console.error("Error creating community (Firestore):", error); // Clarify error source
-      Alert.alert("Error", "Could not create community. Check Firestore rules."); // More specific alert
+      console.error("Error creating community (Firestore):", error); 
+      Alert.alert("Error", "Could not create community. Check Firestore rules."); 
     } finally {
       setLoading(false);
     }
@@ -185,6 +183,12 @@ const CreateCommunityScreen = () => {
       )}
 
       <ScrollView contentContainerStyle={{flexGrow: 1, paddingBottom: SPACING.large}}>
+                   <TouchableOpacity
+            onPress={() => navigation.goBack()} 
+            style={globalStyles.backButton || globalStyles.primaryButton} 
+          >
+            <Ionicons name="arrow-back" size={FONT_SIZES.xxlarge} color={colors.textPrimary} /> 
+          </TouchableOpacity>
         <Text style={styles.header}>Create a New Community</Text>
 
         <TouchableOpacity onPress={handleImagePick} style={styles.logoContainer} disabled={loading || isPickingImage}>

@@ -1,4 +1,3 @@
-// Screens/GroupDetailsScreen.tsx
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -10,17 +9,17 @@ import {
   Alert,
   ActivityIndicator,
   Image,
-  StyleSheet // Keep StyleSheet import for potential local styles, or remove if not used
+  StyleSheet 
 } from "react-native";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"; // ADD useRoute here
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native"; 
 import { StackNavigationProp } from "@react-navigation/stack";
-import { db, auth } from "../firebaseConfig";
+import { db, auth } from "../../../firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { RootStackParamList } from "../types"; //
-import { useTheme } from './context/ThemeContext'; //
-import createStyles from './context/appStyles'; //
-import { SPACING, FONT_SIZES } from './context/appStyles'; //
-import { Ionicons } from '@expo/vector-icons'; //
+import { RootStackParamList } from "../../../types"; 
+import { useTheme } from '../../context/ThemeContext'; 
+import createStyles from '../../context/appStyles'; 
+import { SPACING, FONT_SIZES } from '../../context/appStyles'; 
+import { Ionicons } from '@expo/vector-icons'; 
 
 type GroupDetailsScreenRouteProp = RouteProp<RootStackParamList, "GroupDetailsScreen">;
 type GroupDetailsScreenNavigationProp = StackNavigationProp<RootStackParamList, "GroupDetailsScreen">;
@@ -38,9 +37,9 @@ const GroupDetailsScreen = () => {
   const [isCreator, setIsCreator] = useState(false);
   const [membersProfiles, setMembersProfiles] = useState<any[]>([]);
 
-  const { colors } = useTheme(); //
+  const { colors } = useTheme(); 
   const styles = createStyles(colors).groupDetailsScreen;
-  const globalStyles = createStyles(colors).global; //
+  const globalStyles = createStyles(colors).global; 
 
   const currentUserId = auth.currentUser?.uid;
 
@@ -78,7 +77,7 @@ const GroupDetailsScreen = () => {
           Alert.alert("Error", "Group not found.");
           navigation.goBack();
         }
-      } catch (error: any) { // Added ': any' to error catch
+      } catch (error: any) {
         console.error("Error fetching group details:", error);
         Alert.alert("Error", "Failed to load group details.");
         navigation.goBack();
@@ -131,7 +130,7 @@ const GroupDetailsScreen = () => {
   if (!groupData) {
     return (
       <View style={globalStyles.centeredContainer}>
-        <Text style={globalStyles.errorText}>Group details could not be loaded.</Text> {/* Using globalStyles.errorText */}
+        <Text style={globalStyles.errorText}>Group details could not be loaded.</Text> 
       </View>
     );
   }
@@ -200,7 +199,7 @@ const GroupDetailsScreen = () => {
           <Text style={styles.label}>Members ({membersProfiles.length})</Text>
           <View style={styles.membersList}>
              {membersProfiles.map((member) => (
-                <TouchableOpacity // Wrap member item in TouchableOpacity
+                <TouchableOpacity 
                     key={member.uid}
                     onPress={() => navigation.navigate("UserProfileScreen", { userId: member.uid })} // Navigate to UserProfileScreen
                     style={styles.memberItem}

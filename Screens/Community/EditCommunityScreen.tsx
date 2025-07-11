@@ -15,15 +15,16 @@ import {
 } from "react-native";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Community, RootStackParamList } from "../types";
+import { Community, RootStackParamList } from "../../types";
 import { doc, updateDoc } from "firebase/firestore";
-import { db, auth, storage } from "../firebaseConfig";
+import { db, auth, storage } from "../../firebaseConfig";
 import { getDownloadURL, ref, uploadBytes, deleteObject } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
-import { useTheme } from './context/ThemeContext';
-import createStyles, { SPACING } from './context/appStyles';
+import { useTheme } from '../context/ThemeContext';
+import createStyles, { FONT_SIZES, SPACING } from '../context/appStyles';
+import { Ionicons } from '@expo/vector-icons';
 
-const DEFAULT_COMMUNITY_LOGO = require("../assets/community-placeholder.png");
+const DEFAULT_COMMUNITY_LOGO = require("../../assets/community-placeholder.png");
 
 type EditCommunityScreenRouteProp = RouteProp<RootStackParamList, "EditCommunityScreen">;
 type EditCommunityScreenNavigationProp = StackNavigationProp<RootStackParamList, "EditCommunityScreen">;
@@ -220,7 +221,12 @@ const EditCommunityScreen = () => {
             <Text style={styles.loadingOverlayText}>Saving changes...</Text>
           </View>
         )}
-
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}
+          >
+          <Ionicons name="arrow-back" size={FONT_SIZES.xxlarge} color={colors.textPrimary} />
+          </TouchableOpacity>
         <Text style={styles.header}>Edit Community</Text>
 
         <TouchableOpacity onPress={handleImagePick} style={styles.logoContainer} disabled={loading || isPickingImage}>
