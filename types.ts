@@ -9,6 +9,7 @@ export type RootStackParamList = {
     GroupChatScreen: { groupId: string; groupName: string; communityId: string };
     ChatRoomScreen: { chatId: string; recipientId: string };
     UserProfileScreen: { userId: string };
+    ProfileScreen: undefined;    // ← add this
     ChatScreen: undefined;
     EditCommunityScreen: { community: Community };
     CreateGroupChatScreen: { communityId: string };
@@ -17,8 +18,16 @@ export type RootStackParamList = {
     // NEW SCREENS FOR BUSINESSES
     BusinessesScreen: undefined;
     CreateBusinessScreen: { catalog?: CatalogItem[] }; // Allows passing initial catalog
-    CatalogEditorScreen: { businessId?: string; catalog: CatalogItem[] }; // Editor for catalog items (can be used for new or existing business)
-    AddCatalogScreen: { catalog: CatalogItem[] }; // Specific screen to add new item to catalog in bulk/editor mode
+    CatalogEditorScreen: {
+      businessId: string;
+      businessName: string;
+      coverImageUrl?: string | null;
+      description: string;
+      location: string;
+      type: string;
+      catalog: CatalogItem[];
+    };
+      AddCatalogScreen: { catalog: CatalogItem[] }; // Specific screen to add new item to catalog in bulk/editor mode
     BusinessChatScreen: { businessId: string; businessName: string; coverImageUrl?: string | null }; // Corrected: accepts businessName and coverImageUrl
    
     MyBusinessScreen: {

@@ -131,8 +131,15 @@ const EditBusinessScreen = () => {
   };
 
   const openCatalogEditor = () => {
-    navigation.navigate('CatalogEditorScreen', { businessId, catalog });
-  };
+  navigation.navigate('CatalogEditorScreen', {
+    businessId,
+    businessName: name,
+    coverImageUrl: coverImageUri ?? null,
+    description,
+    location,
+    type,
+    catalog,
+  });  };
 
   if (loading) {
     return (

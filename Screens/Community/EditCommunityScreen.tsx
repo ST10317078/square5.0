@@ -32,14 +32,11 @@ type EditCommunityScreenNavigationProp = StackNavigationProp<RootStackParamList,
 const EditCommunityScreen = () => {
   const route = useRoute<EditCommunityScreenRouteProp>();
   const navigation = useNavigation<EditCommunityScreenNavigationProp>();
-  const { community } = route.params; // Get the community object passed from CommunityDetailScreen
-
+  const { community } = route.params; 
   const { colors, isThemeLoading } = useTheme();
   const styles = createStyles(colors).editCommunityScreen;
   const globalStyles = createStyles(colors).global;
 
-  // State variables, pre-populated with existing community data
-  // Initialize with empty string, *always*.
   const [name, setName] = useState<string>(community.name || "");
   const [description, setDescription] = useState<string>(community.description || "");
   const [communityLogoUri, setCommunityLogoUri] = useState<string | null>(community.logo || null);
@@ -49,7 +46,6 @@ const EditCommunityScreen = () => {
   const user = auth.currentUser;
   const isCreator = user && community.createdBy === user.uid;
 
-  // Add a useEffect to log initial community data and check creator status
   useEffect(() => {
     console.log("EditCommunityScreen: Community Data on Load:", community);
     console.log("EditCommunityScreen: Initial Name Type:", typeof community.name, "Value:", community.name);
@@ -60,7 +56,7 @@ const EditCommunityScreen = () => {
       Alert.alert("Access Denied", "You do not have permission to edit this community.");
       navigation.goBack();
     }
-  }, [user, isCreator, navigation, community]); // Added community to dependency array
+  }, [user, isCreator, navigation, community]); 
 
   const handleImagePick = async () => {
     if (isPickingImage) return;
@@ -118,13 +114,10 @@ const EditCommunityScreen = () => {
   };
 
   const handleSave = async () => {
-    // --- Logging just before the problematic line ---
     console.log("handleSave: Name type before trim:", typeof name, "Value:", name);
     console.log("handleSave: Description type before trim:", typeof description, "Value:", description);
 
-    // FIX 1: Explicitly cast 'name' to string before checking, and ensure it's not empty after trimming
-    // This is the line pointed to by error (Line 163)
-    const trimmedName = String(name).trim(); // <--- Line 163: Force to string, then trim
+    const trimmedName = String(name).trim(); 
     if (!trimmedName) {
       Alert.alert("Error", "Community name is required.");
       return;
@@ -171,12 +164,11 @@ const EditCommunityScreen = () => {
     try {
       const communityDocRef = doc(db, "communities", community.id);
       
-      // FIX 2: Explicitly cast 'description' to string before checking/trimming
       const trimmedDescription = String(description).trim();
       
       const updatedData: Partial<Community> = {
-        name: trimmedName, // Use the trimmed name
-        description: trimmedDescription ? trimmedDescription : undefined, // Use trimmed description
+        name: trimmedName, 
+        description: trimmedDescription ? trimmedDescription : undefined, 
         logo: newLogoDownloadURL || undefined,
       };
 

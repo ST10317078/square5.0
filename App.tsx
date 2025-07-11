@@ -26,6 +26,7 @@ import EditBusinessScreen from "./Screens/Businesses/EditBusinessScreen";
 import CatalogEditorScreen from "./Screens/Businesses/CatalogEditorScreen";
 import BusinessChatScreen from "./Screens/Businesses/BusinessChatScreen";
 import MyBusinessScreen from './Screens/Businesses/MyBusinessScreen';
+import CreateGroupChatScreen from './Screens/Community/Group/CreateGroupChatScreen';
 
 
 const RootStack = createStackNavigator();
@@ -104,7 +105,7 @@ const MainNavigator = () => {
               <RootStack.Screen name="CatalogEditorScreen" component={CatalogEditorScreen} />
               <RootStack.Screen name="BusinessChatScreen" component={BusinessChatScreen} />
               <RootStack.Screen name="MyBusinessScreen" component={MyBusinessScreen} />
-      
+              <RootStack.Screen name="CreateGroupChatScreen" component={CreateGroupChatScreen} />
             </>
           ) : (
             <RootStack.Screen name="AuthScreen" component={AuthScreen} />

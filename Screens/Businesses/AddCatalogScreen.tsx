@@ -39,7 +39,7 @@ const AddCatalogScreen = () => {
     name: item.name,
     price: item.price.toString(),
     description: item.description,
-    imageUri: item.imageUri,
+    imageUri: item.imageUrl,
   }));
 
   const [catalog, setCatalog] = useState<LocalCatalogItem[]>(initialCatalog);

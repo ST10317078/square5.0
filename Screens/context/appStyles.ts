@@ -409,7 +409,20 @@ communityDetailScreen: StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
       },
-
+      communityLogoFallback: {
+          width: 60,
+          height: 60,
+          borderRadius: 30,
+          backgroundColor: colors.primaryLight,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 8,
+        },
+        communityLogoFallbackText: {
+          color: colors.primary,
+          fontSize: FONT_SIZES.large,
+          fontWeight: 'bold',
+        },
       themeToggleText: {
         fontSize: FONT_SIZES.medium,
         marginRight: SPACING.small,
