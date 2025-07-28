@@ -1,6 +1,17 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "baseUrl": ".",
+    "strict": true,
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./types"]
+  },
+  "include": [
+    "types/**/*",
+    "src/**/*",
+    "declarations.d.ts",
+    "firebaseConfig.ts",
+    "walletApi.ts",
+    "WalletScreen.tsx"
+  ]
 }

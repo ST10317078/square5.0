@@ -46,7 +46,7 @@ const AuthScreen = () => {
         Alert.alert("Welcome!", "You have successfully logged in.");
       }
 
-      setError("");
+      setError("");S
       navigation.navigate("CommunityScreen"); // Ensure CommunityScreen exists in navigator
     } catch (err: any) {
       setError(err.message);

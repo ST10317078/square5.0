@@ -4,9 +4,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
+// CORRECTED: Only import from the 'react-native-paystack-webview' library
+import { PaystackProvider } from 'react-native-paystack-webview'; 
+
 import { AuthProvider, useAuth } from "./AuthContext";
 import { ThemeProvider, useTheme } from './Screens/context/ThemeContext';
 
+// --- Screen Imports ---
 import AuthScreen from "./Screens/AuthScreen";
 import CommunityScreen from "./Screens/Community/CommunityScreen";
 import CommunityDetailScreen from "./Screens/Community/CommunityDetailScreen";
@@ -54,15 +58,14 @@ const TabsNavigator = () => {
           shadowRadius: 10,
           shadowOffset: { width: 0, height: -2 },
         },
-
         tabBarIcon: ({ color, size }) => {
-          let iconName: string = "";
+          let iconName: any = "help-circle-outline"; // Default icon
           if (route.name === "CommunityScreen") iconName = "people-outline";
           else if (route.name === "BusinessesScreen") iconName = "storefront-outline";
           else if (route.name === "WalletScreen") iconName = "wallet-outline";
           else if (route.name === "ProfileScreen") iconName = "person-outline";
-          else if (route.name === "UserScreen") iconName = "person-outline";
-return <Ionicons name={iconName as any} size={size} color={color} />;
+          else if (route.name === "UserScreen") iconName = "chatbubbles-outline";
+          return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -88,10 +91,7 @@ const MainNavigator = () => {
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
           {user ? (
             <>
-              {/* Tabs Navigator with Bottom Bar */}
               <RootStack.Screen name="Tabs" component={TabsNavigator} />
-
-              {/* Screens without Bottom Bar */}
               <RootStack.Screen name="GroupChatScreen" component={GroupChatScreen} />
               <RootStack.Screen name="ChatRoomScreen" component={ChatRoomScreen} />
               <RootStack.Screen name="CommunityDetailScreen" component={CommunityDetailScreen} />
@@ -118,9 +118,13 @@ const MainNavigator = () => {
 
 const App = () => {
   return (
-    <AuthProvider>
-      <MainNavigator />
-    </AuthProvider>
+    // FINAL FIX: Use the correct prop `publicKey` instead of `paystackKey`
+    // and set the default currency for your app.
+    <PaystackProvider publicKey="pk_test_7fb21306c12693952005b6f28eafc5715d4c2892" currency="ZAR">
+      <AuthProvider>
+        <MainNavigator />
+      </AuthProvider>
+    </PaystackProvider>
   );
 };
 

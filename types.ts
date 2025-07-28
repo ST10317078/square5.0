@@ -27,7 +27,7 @@ export type RootStackParamList = {
       type: string;
       catalog: CatalogItem[];
     };
-      AddCatalogScreen: { catalog: CatalogItem[] }; // Specific screen to add new item to catalog in bulk/editor mode
+    AddCatalogScreen: { catalog: CatalogItem[] }; // Specific screen to add new item to catalog in bulk/editor mode
     BusinessChatScreen: { businessId: string; businessName: string; coverImageUrl?: string | null }; // Corrected: accepts businessName and coverImageUrl
    
     MyBusinessScreen: {
@@ -65,6 +65,27 @@ export type Community = {
   createdAt: Date | Timestamp; // Allow Timestamp from Firestore
 };
 
+export interface Wallet {
+  id: string; 
+  balance: number;
+  currency: 'USD' | 'ZAR'; 
+  updatedAt: Timestamp;
+}
+
+export type TransactionType = 'deposit' | 'withdrawal' | 'transfer' | 'purchase';
+
+export interface Transaction {
+  id: string; 
+  type: TransactionType;
+  amount: number;
+  currency: 'USD' | 'ZAR';
+  timestamp: Timestamp;
+  fromId: string; 
+  toId: string; 
+  description: string;
+  status: 'pending' | 'completed' | 'failed';
+  participants: string[];
+}
 export type UserProfile = {
   id: string; // User's Firestore document ID (UID)
   username: string;
@@ -74,7 +95,7 @@ export type UserProfile = {
   uid: string; // Firebase Authentication UID (should match id)
 };
 
-// Message interface for both ChatRoomScreen and GroupChatScreen
+
 export interface Message { // Changed to interface for consistency and extensibility
   id: string; // Firestore document ID for the message
   text?: string; // Message text
@@ -93,7 +114,6 @@ export interface Message { // Changed to interface for consistency and extensibi
   tempId?: string; // Temporary ID for optimistic updates
 }
 
-// NEW: Business Data Models
 export interface CatalogItem {
   tempId?: string; // Client-side only: Temporary ID for items before saving to Firestore
   name: string;
