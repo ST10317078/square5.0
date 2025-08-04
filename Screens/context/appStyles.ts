@@ -670,6 +670,7 @@ communityDetailScreen: StyleSheet.create({
       },
     }),
 
+
 createBusinessScreen: StyleSheet.create({
   container: {
     flex: 1,
@@ -2959,6 +2960,94 @@ catalogImage: {
   },
 }),
 
+  walletScreen: StyleSheet.create({
+      container: {
+        flex: 1,
+        padding: SPACING.large,
+        backgroundColor: colors.background,
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+      header: {
+        fontSize: FONT_SIZES.heading1,
+        fontWeight: 'bold',
+        color: colors.textPrimary,
+        marginBottom: SPACING.xxlarge,
+        position: 'absolute',
+        top: SPACING.large,
+      },
+      walletInfoContainer: {
+        width: '100%',
+        padding: SPACING.large,
+        backgroundColor: colors.cardBackground,
+        borderRadius: 16,
+        alignItems: 'center',
+        shadowColor: colors.shadowColor,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 5,
+      },
+      addressLabel: {
+        fontSize: FONT_SIZES.medium,
+        color: colors.textSecondary,
+        marginBottom: SPACING.small,
+      },
+      addressText: {
+        fontSize: FONT_SIZES.medium,
+        color: colors.textPrimary,
+        fontWeight: '600',
+        textAlign: 'center',
+        marginBottom: SPACING.medium,
+        paddingHorizontal: SPACING.medium,
+      },
+      balanceText: {
+        fontSize: FONT_SIZES.large,
+        color: colors.textSecondary,
+        marginBottom: SPACING.xlarge,
+      },
+      connectContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: SPACING.large,
+      },
+      infoText: {
+        fontSize: FONT_SIZES.large,
+        color: colors.textSecondary,
+        textAlign: 'center',
+        marginBottom: SPACING.xlarge,
+      },
+      button: {
+        backgroundColor: colors.primary,
+        paddingVertical: SPACING.medium,
+        paddingHorizontal: SPACING.large,
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: 220,
+        flexDirection: 'row',
+      },
+      buttonText: {
+        color: colors.activeFilterText,
+        fontSize: FONT_SIZES.large,
+        fontWeight: 'bold',
+      },
+      disconnectButton: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: colors.error,
+        marginTop: SPACING.medium,
+      },
+      disconnectButtonText: {
+        color: colors.error,
+        fontSize: FONT_SIZES.medium,
+        fontWeight: 'bold',
+      }
+    }),
+
+
+    // … any other style groups …
   };
 };
 

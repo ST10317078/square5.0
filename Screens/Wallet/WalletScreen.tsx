@@ -1,41 +1,57 @@
-import React from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, FlatList, Button } from "react-native";
+import {
+  watchWallet,
+  fetchTransactions,
+  initTopUp,
+  verifyTopUp,
+} from "../../services/walletApi";
+import { chargeCard } from "../../types/paystack-react-native"; // or use your Paystack WebView
+import { auth } from '../../firebaseConfig';  // ← import your auth instance
 
-const vouchers = [
-  { id: '1', title: '10% Off at Joe\'s Pizza', description: 'Valid until 30 Sept 2025' },
-  { id: '2', title: 'Free Coffee with Breakfast', description: 'Valid at Cafe Aroma' },
-  { id: '3', title: 'R50 Off Taxi Ride', description: 'For first-time riders only' },
-];
+export default function WalletScreen() {
+  const uid = auth().currentUser!.uid; // or however you grab it
+  const [balance, setBalance] = useState(0);
+  const [txs, setTxs] = useState<any[]>([]);
 
-const WalletScreen  = () => {
+  useEffect(() => {
+    const unsubW = watchWallet(uid, setBalance);
+    const unsubT = fetchTransactions(uid, setTxs);
+    return () => {
+      unsubW();
+      unsubT();
+    };
+  }, [uid]);
+
+  async function onTopUp() {
+    const amount = 10000; // in cents
+    const { accessCode, reference } = await initTopUp(
+      amount,
+      "user@example.com"
+    );
+    const res = await chargeCard({ accessCode });
+    if (res.reference === reference) {
+      await verifyTopUp(reference, amount);
+    }
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Available Vouchers</Text>
+    <View style={{ flex: 1, padding: 16 }}>
+      <Text style={{ fontSize: 24 }}>
+        Balance: R{(balance / 100).toFixed(2)}
+      </Text>
+      <Button title="Top Up" onPress={onTopUp} />
       <FlatList
-        data={vouchers}
+        data={txs}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.voucherCard}>
-            <Text style={styles.voucherTitle}>{item.title}</Text>
-            <Text style={styles.voucherDescription}>{item.description}</Text>
-          </TouchableOpacity>
+          <Text>
+            {item.type === "transfer"
+              ? `💸 ${item.amount / 100} from ${item.from}`
+              : `➕ Top-up ${item.amount / 100}`}
+          </Text>
         )}
       />
     </View>
   );
-};
-
-export default WalletScreen ;
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: '#fff' },
-  header: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
-  voucherCard: {
-    backgroundColor: '#f2f2f2',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  voucherTitle: { fontSize: 18, fontWeight: 'bold' },
-  voucherDescription: { fontSize: 14, color: '#666' },
-});
+}

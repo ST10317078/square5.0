@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { WalletProvider } from "./Screens/context/WalletContext";
 
 import { AuthProvider, useAuth } from "./AuthContext";
 import { ThemeProvider, useTheme } from './Screens/context/ThemeContext';
@@ -84,6 +85,7 @@ const MainNavigator = () => {
 
   return (
     <ThemeProvider>
+    <WalletProvider>
       <NavigationContainer>
         <RootStack.Navigator screenOptions={{ headerShown: false }}>
           {user ? (
@@ -112,6 +114,7 @@ const MainNavigator = () => {
           )}
         </RootStack.Navigator>
       </NavigationContainer>
+      </WalletProvider>
     </ThemeProvider>
   );
 };

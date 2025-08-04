@@ -53,8 +53,31 @@ EditBusinessScreen: {
     // BOTTOM TABS (used in App.tsx as a screen name)
     BottomTabs: undefined;
     Auth: undefined;
+
+
+    WalletScreen: undefined; 
+
 };
 
+export interface Balance {
+  available: number;
+  currency: string;
+}
+export interface Transaction {
+  id: string;
+  timestamp: string;
+  type: "SEND" | "RECEIVE" | "BUY";
+  amount: number;
+  currency: string;
+  counterparty?: string;
+}
+
+export interface Wallet {
+  address: string; // Bitcoin address
+  balance: number; // in Satoshis
+  transactions: Transaction[];
+  seedPhrase?: string; // Only handle this in-memory when necessary
+}
 
 export type Community = {
   id: string;
