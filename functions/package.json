@@ -11,6 +11,7 @@
     "logs": "firebase functions:log"
   },
   "engines": {
+<<<<<<< HEAD
     "node": "22"
   },
   "main": "lib/index.js",
@@ -25,13 +26,30 @@
     "react-native-paystack": "^3.4.0"
   },
   "devDependencies": {
+=======
+    "node": "20"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
+    "react-native-config": "^1.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+>>>>>>> 19676a782321ebe9a783a6a59363415e2bad9248
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^8.9.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-import": "^2.25.4",
     "firebase-functions-test": "^3.1.0",
+<<<<<<< HEAD
     "typescript": "^4.9.0"
+=======
+    "typescript": "^4.9.5"
+>>>>>>> 19676a782321ebe9a783a6a59363415e2bad9248
   },
   "private": true
 }
